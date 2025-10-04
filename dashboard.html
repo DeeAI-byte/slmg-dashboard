@@ -10,26 +10,40 @@
     :root{--coke-red:#F40009;--slmg-blue:#0066B3;--bg:#f6f7f9;--card:#fff;--muted:#6b7280;}
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
     body{background:var(--bg);color:#111;}
-    header{background:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 6px rgba(0,0,0,0.05);position:sticky;top:0;z-index:10;}
-    .slmg-logo{font-weight:700;color:var(--slmg-blue);}
-    .coke-logo{margin-left:auto;height:36px;}
-    .nav-links{display:flex;list-style:none;gap:12px;padding:10px 18px;background:#fff;flex-wrap:wrap;}
-    .nav-links li{cursor:pointer;font-weight:600;}
-    .nav-links li.active{color:var(--coke-red);}
+    header{background:#fff;padding:16px 20px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
+    .header-logos{display:flex;align-items:center;justify-content:center;gap:10px;}
+    .header-logos .slmg{font-weight:700;font-size:22px;color:var(--slmg-blue);}
+    .header-logos .sub{font-size:12px;color:var(--muted);}
+    .header-logos img{height:36px;}
     .banner{text-align:center;margin:14px auto;}
-    .banner img{width:200px;max-width:90%;margin-bottom:6px;}
+    .banner img{width:180px;margin-bottom:6px;}
     .banner h1{color:var(--slmg-blue);font-size:22px;}
     .banner h2{font-size:16px;margin-top:4px;}
     .banner p{font-size:13px;color:var(--muted);margin-top:2px;}
-    .container{max-width:1200px;margin:auto;padding:16px;}
-    footer{text-align:center;padding:16px;font-size:13px;color:#666;}
+    nav{background:#fff;padding:10px 16px;box-shadow:0 2px 5px rgba(0,0,0,0.04);}
+    .nav-links{display:flex;list-style:none;gap:12px;flex-wrap:wrap;justify-content:center;}
+    .nav-links li{cursor:pointer;font-weight:600;}
+    .nav-links li.active{color:var(--coke-red);}
+    .container{max-width:1100px;margin:auto;padding:20px;}
     .section{display:none;} .section.active{display:block;}
+    footer{text-align:center;padding:16px;font-size:13px;color:#666;}
   </style>
 </head>
 <body>
   <header>
-    <div class="slmg-logo"><i class="fas fa-bottle-water" style="margin-right:6px;"></i>SLMG Beverages</div>
-    <img class="coke-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
+    <div class="header-logos">
+      <div>
+        <div class="slmg">SLMG Beverages LTD.</div>
+        <div class="sub">Coca-Cola Bottlers</div>
+      </div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/320px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
+    </div>
+    <div class="banner">
+      <img src="drishti.jpg" alt="Project Drishti">
+      <h1>प्रोजेक्ट दृष्टि</h1>
+      <h2>साफ़ नज़र, सही दिशा</h2>
+      <p>AI और इंसान साथ हों, तभी भविष्य की बात हो।</p>
+    </div>
   </header>
 
   <nav>
@@ -40,16 +54,9 @@
       <li data-target="transport">Transport</li>
       <li data-target="stock">Stock</li>
       <li data-target="distributors">Distributors</li>
-      <li id="logoutBtn" style="margin-left:auto;color:#555;">Logout</li>
+      <li id="logoutBtn" style="color:#555;">Logout</li>
     </ul>
   </nav>
-
-  <div class="banner">
-    <img src="drishti.jpg" alt="Project Drishti">
-    <h1>प्रोजेक्ट दृष्टि</h1>
-    <h2>साफ़ नज़र, सही दिशा</h2>
-    <p>AI और इंसान साथ हों, तभी भविष्य की बात हो।</p>
-  </div>
 
   <div class="container">
     <div id="dashboard" class="section active">

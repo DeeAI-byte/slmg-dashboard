@@ -18,8 +18,12 @@
     body{background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;color:#111;}
     .wrap{width:100%;max-width:960px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:1fr 420px;}
     .left{padding:40px 30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,rgba(244,0,9,0.05),#fff);}
-    .left img{width:240px;max-width:90%;margin-bottom:16px;}
-    .left h1{font-size:22px;color:var(--slmg-blue);margin-bottom:6px;}
+    .header-logos{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;}
+    .header-logos .slmg{font-weight:700;font-size:22px;color:var(--slmg-blue);}
+    .header-logos .sub{font-size:12px;color:var(--muted);}
+    .header-logos img{height:36px;}
+    .left img{max-width:90%;margin-bottom:10px;}
+    .left h1{font-size:22px;color:var(--slmg-blue);margin-bottom:4px;}
     .left h2{font-size:16px;color:#333;margin-bottom:4px;}
     .left p{font-size:13px;color:var(--muted);}
     .right{padding:40px;display:flex;flex-direction:column;justify-content:center;}
@@ -34,13 +38,24 @@
 <body>
   <div class="wrap">
     <div class="left">
-      <img src="drishti.jpg" alt="Project Drishti logo">
+      <!-- SLMG + Coca-Cola Header -->
+      <div class="header-logos">
+        <div>
+          <div class="slmg">SLMG Beverages LTD.</div>
+          <div class="sub">Coca-Cola Bottlers</div>
+        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/320px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
+      </div>
+
+      <!-- Project Drishti -->
+      <img src="drishti.jpg" alt="Project Drishti logo" style="width:200px;">
       <h1>प्रोजेक्ट दृष्टि</h1>
       <h2>साफ़ नज़र, सही दिशा</h2>
       <p>AI और इंसान साथ हों, तभी भविष्य की बात हो।</p>
     </div>
+
     <div class="right">
-      <h2 style="color:var(--slmg-blue);margin-bottom:10px;">SLMG Beverages Portal Login</h2>
+      <h2 style="color:var(--slmg-blue);margin-bottom:10px;">Welcome to SLMG Sales Portal</h2>
       <form onsubmit="handleLogin(event)">
         <label>Username</label>
         <input id="username" type="text" placeholder="e.g. ajay.kumar" required>

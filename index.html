@@ -36,7 +36,6 @@
     .btn{display:inline-block;background:var(--coke-red);color:#fff;padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;width:100%}
     .small{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
     .footer-note{font-size:12px;color:#888;margin-top:6px;text-align:center}
-    .hindi-tagline{margin-top:6px;font-size:13px;color:#d11b1b;text-align:center;font-weight:600;font-family:"Noto Sans Devanagari",sans-serif;}
     .logo-row{display:flex;align-items:center;gap:12px}
     .logo-row img{height:34px}
     .mobile-only{display:none}
@@ -52,11 +51,14 @@
     <div class="left">
       <div class="brand">
         <div class="logo-row">
+          <!-- SLMG mark (text) -->
           <div style="display:flex;flex-direction:column;">
             <div class="slmg">SLMG Beverages LTD.</div>
             <div style="font-size:12px;color:var(--muted)">Coca-Cola Bottlers</div>
           </div>
         </div>
+
+        <!-- Coca-Cola small logo on the top-right of the left column -->
         <img class="coca-mark" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca Cola" style="height:34px;">
       </div>
 
@@ -83,35 +85,43 @@
           <label for="username">Username</label>
           <input id="username" type="text" placeholder="e.g. ajay.kumar" required>
         </div>
+
         <div style="margin-bottom:6px">
           <label for="password">Password</label>
           <input id="password" type="password" placeholder="••••••••" required>
         </div>
+
         <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
           <input id="remember" type="checkbox" />
           <label for="remember" style="font-size:13px;color:var(--muted);margin:0">Remember me (local only)</label>
         </div>
+
         <button class="btn" type="submit">Login to Dashboard</button>
+
         <div class="small">This is a prototype: any credentials will work. You will be redirected to the dashboard.</div>
       </form>
 
-      <div class="footer-note">
-        © <strong>SLMG Beverages LTD.</strong> — Prototype portal
-        <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा</div>
-      </div>
+      <div class="footer-note">© <strong>SLMG Beverages LTD.</strong> — Prototype portal</div>
     </div>
   </div>
 
   <script>
     function handleLogin(e){
       e.preventDefault();
+      // store a small token in localStorage to simulate auth (optional)
       localStorage.setItem('slmg_authenticated','1');
+      // redirect to dashboard (same repo)
+      // small delay for UX
       const btn = document.querySelector('.btn');
       btn.innerText = 'Signing in...';
-      setTimeout(()=> window.location.href='dashboard.html',600);
+      setTimeout(()=> {
+        window.location.href = 'dashboard.html';
+      }, 600);
     }
-    if(localStorage.getItem('slmg_authenticated')==='1'){
-      setTimeout(()=> window.location.href='dashboard.html',300);
+    // if already authenticated, auto-redirect to dashboard
+    if(localStorage.getItem('slmg_authenticated') === '1'){
+      // don't auto-redirect on very small screens? we will redirect anyway
+      setTimeout(()=> window.location.href = 'dashboard.html', 300);
     }
   </script>
 </body>

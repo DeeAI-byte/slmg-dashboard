@@ -35,18 +35,20 @@
       border-radius:12px;
       box-shadow:var(--shadow);
       overflow:hidden;
-      display:grid;
-      grid-template-columns:1fr 420px;
-      align-items:center;
+      display:flex;
+      flex-direction:row;
     }
-    .left{
-      padding:48px 40px;
-      background:linear-gradient(180deg, rgba(244,0,9,0.03), transparent 40%);
+    .left, .right{
+      flex:1;
       display:flex;
       flex-direction:column;
+      justify-content:center;
+      padding:48px 40px;
+    }
+    .left{
+      background:linear-gradient(180deg, rgba(244,0,9,0.03), transparent 40%);
       gap:18px;
       align-items:flex-start;
-      justify-content:center;
     }
     .brand{
       display:flex;
@@ -58,13 +60,9 @@
     .subtitle{color:var(--muted);font-size:14px}
     .features{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5}
     .right{
-      padding:40px;
-      display:flex;
-      flex-direction:column;
+      background:#fff;
       gap:20px;
       align-items:stretch;
-      justify-content:center;
-      height:100%;
     }
     .card{
       background:var(--card);
@@ -95,7 +93,7 @@
     .footer-note{font-size:12px;color:#888;margin-top:6px;text-align:center}
     .mobile-only{display:none}
     @media (max-width:900px){
-      .wrap{grid-template-columns:1fr;max-width:520px}
+      .wrap{flex-direction:column;max-width:520px}
       .mobile-only{display:block;margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
     }
     .hindi-tagline{
@@ -160,7 +158,7 @@
     </div>
   </div>
 
-  <div class="hindi-tagline">"प्रोजेक्ट दृष्टि" साफ नजर, सही दिशा</div>
+  <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नजर, सही दिशा</div>
 
   <script>
     function handleLogin(e){

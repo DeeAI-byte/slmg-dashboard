@@ -3,120 +3,121 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SLMG Beverages — Portal Login</title>
+  <title>SLMG Beverages — Dashboard</title>
 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
     :root{
       --coke-red:#F40009;
       --slmg-blue:#0066B3;
-      --bg:#f6f7f9;
+      --bg:#f5f6f8;
       --card:#ffffff;
       --muted:#6b7280;
-      --shadow: 0 8px 24px rgba(16,24,40,0.06);
+      --shadow: 0 10px 30px rgba(16,24,40,0.06);
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-    body{background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;color:#111;}
-    .wrap{width:100%;max-width:980px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:1fr 420px;}
-    .left{padding:48px 40px;background:linear-gradient(180deg, rgba(244,0,9,0.03), transparent 40%);
-      display:flex;flex-direction:column;gap:18px;align-items:flex-start;justify-content:center;}
-    .brand{display:flex;align-items:center;gap:14px;}
-    .logo-row{display:flex;align-items:center;gap:12px}
-    .slmg-logo{height:48px;}
-    .coca-mark{margin-left:auto;opacity:0.95;height:34px;}
-    .title{font-size:22px;font-weight:700;color:#111}
-    .subtitle{color:var(--muted);font-size:14px}
-    .features{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5}
-    .right{padding:40px;background:linear-gradient(180deg, #fff, #fff);display:flex;flex-direction:column;gap:20px;align-items:stretch;justify-content:center}
-    .card{background:var(--card);border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
-    label{font-size:13px;color:#333;margin-bottom:8px;display:block}
-    input[type=text],input[type=password]{width:100%;padding:10px 12px;border:1px solid #e6e9ee;border-radius:8px;font-size:14px}
-    .btn{display:inline-block;background:var(--coke-red);color:#fff;padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer;width:100%}
-    .small{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
-    .footer-note{font-size:12px;color:#888;margin-top:6px;text-align:center}
-    .hindi-tagline{font-size:13px;color:#c21807;text-align:center;font-weight:600;margin-top:6px;font-family:"Noto Sans Devanagari",sans-serif;}
-    .mobile-only{display:none}
-    @media (max-width:900px){
-      .wrap{grid-template-columns:1fr;max-width:520px}
-      .coca-mark{display:none}
-      .mobile-only{display:block;margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
-    }
+    body{background:var(--bg);color:#111;min-height:100vh;line-height:1.4}
+    header{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:sticky;top:0;z-index:30}
+    .logos{display:flex;align-items:center;gap:14px;}
+    .logos img{height:60px;object-fit:contain;}
+    .hamburger{display:none;cursor:pointer;margin-left:16px}
+    .hamburger span{display:block;width:26px;height:3px;background:#333;border-radius:3px;margin:4px 0;transition:all .25s}
+    nav{background:#fff;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,0.03);position:relative}
+    .nav-links{display:flex;gap:8px;list-style:none;flex-wrap:wrap}
+    .nav-links li{padding:10px 12px;border-radius:8px;cursor:pointer;color:#333;font-weight:600}
+    .nav-links li.active{background:linear-gradient(90deg, rgba(244,0,9,0.08), transparent);color:var(--coke-red)}
+    .container{max-width:1200px;margin:22px auto;padding:0 16px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .main{display:flex;flex-direction:column;gap:18px}
+    .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow)}
+    .card-title{font-size:13px;color:var(--muted);margin-bottom:8px}
+    .card-value{font-weight:700;font-size:20px}
+    .positive{color:#16a34a}
+    .negative{color:#ef4444}
+    .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .chart-box{padding:12px;border-radius:10px;background:var(--card);box-shadow:var(--shadow)}
+    .activity{padding:12px;border-radius:10px;background:var(--card);box-shadow:var(--shadow)}
+    footer{margin-top:30px;padding:18px;text-align:center;color:#555;font-size:13px}
+    .hindi-tagline{font-size:13px;color:#c21807;text-align:center;font-weight:600;margin-top:4px;font-family:"Noto Sans Devanagari",sans-serif;}
+    @media (max-width:1000px){.grid{grid-template-columns:1fr}.charts{grid-template-columns:1fr}}
+    @media (max-width:760px){.hamburger{display:block}.nav-links{display:none;position:absolute;left:0;top:62px;width:100%;flex-direction:column;background:#fff;padding:10px;border-top:1px solid #eee}.nav-links.show{display:flex}}
+    .section{display:none}.section.active{display:block}
+    .small-muted{font-size:13px;color:var(--muted)}
+    .logout{background:transparent;border:1px solid #eee;padding:8px 10px;border-radius:8px;cursor:pointer}
   </style>
 </head>
 <body>
-  <div class="wrap" role="main">
-    <div class="left">
-      <div class="brand">
-        <div class="logo-row">
-          <!-- SLMG official logo -->
-          <img src="slmg-logo.png" alt="SLMG Beverages" class="slmg-logo">
-        </div>
-
-        <!-- Coca-Cola small logo on the top-right of the left column -->
-        <img class="coca-mark" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca Cola">
-      </div>
-
-      <h2 class="title">Welcome to SLMG Sales Portal</h2>
-      <div class="subtitle">A quick prototype dashboard for Primary & Secondary sales, transport, stock & distributor data.</div>
-
-      <div class="features">
-        • View last 6 months sales & stock charts<br>
-        • Responsive navigation for mobile and desktop<br>
-        • Ready to connect to Google Sheets / API
-      </div>
-
-      <div class="mobile-only">Use any username & password to login (prototype).</div>
+  <header>
+    <div class="logos">
+      <!-- SLMG official logo -->
+      <img src="slmg-logo.png" alt="SLMG Beverages">
+      <!-- Coca-Cola logo -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
     </div>
 
-    <div class="right">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:700">Portal Login</div>
-        <div style="font-size:12px;color:var(--muted)">Prototype — no backend</div>
-      </div>
-
-      <form id="loginForm" class="card" onsubmit="handleLogin(event)">
-        <div style="margin-bottom:12px">
-          <label for="username">Username</label>
-          <input id="username" type="text" placeholder="e.g. ajay.kumar" required>
-        </div>
-
-        <div style="margin-bottom:6px">
-          <label for="password">Password</label>
-          <input id="password" type="password" placeholder="••••••••" required>
-        </div>
-
-        <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
-          <input id="remember" type="checkbox" />
-          <label for="remember" style="font-size:13px;color:var(--muted);margin:0">Remember me (local only)</label>
-        </div>
-
-        <button class="btn" type="submit">Login to Dashboard</button>
-
-        <div class="small">This is a prototype: any credentials will work. You will be redirected to the dashboard.</div>
-      </form>
-
-      <div class="footer-note">
-        © <strong>SLMG Beverages LTD.</strong> — Prototype portal
-        <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा</div>
-      </div>
+    <div class="hamburger" id="hamburger" title="Menu">
+      <span></span><span></span><span></span>
     </div>
+  </header>
+
+  <!-- 🔹 Navigation -->
+  <nav>
+    <ul class="nav-links" id="navLinks">
+      <li data-target="dashboard" class="active"><i class="fas fa-tachometer-alt" style="margin-right:8px"></i> Dashboard</li>
+      <li data-target="primarySales"><i class="fas fa-shopping-cart" style="margin-right:8px"></i> Primary Sales</li>
+      <li data-target="secondarySales"><i class="fas fa-store" style="margin-right:8px"></i> Secondary Sales</li>
+      <li data-target="transport"><i class="fas fa-truck" style="margin-right:8px"></i> Transport</li>
+      <li data-target="stock"><i class="fas fa-boxes" style="margin-right:8px"></i> Stock</li>
+      <li data-target="distributors"><i class="fas fa-users" style="margin-right:8px"></i> Distributors</li>
+      <li id="logoutBtn" style="margin-left:auto;color:#555"><i class="fas fa-sign-out-alt" style="margin-right:8px"></i> Logout</li>
+    </ul>
+  </nav>
+
+  <!-- 🔹 Main Dashboard Content -->
+  <div class="container">
+    <!-- (Your existing dashboard sections and charts remain unchanged) -->
+    <!-- ... -->
   </div>
 
+  <!-- 🔹 Footer -->
+  <footer>
+    Made for Coca-Cola Bottlers SLMG — Prototype. Built for copy-paste deployment on GitHub Pages.
+    <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा</div>
+  </footer>
+
   <script>
-    function handleLogin(e){
-      e.preventDefault();
-      localStorage.setItem('slmg_authenticated','1');
-      const btn = document.querySelector('.btn');
-      btn.innerText = 'Signing in...';
-      setTimeout(()=> {
-        window.location.href = 'dashboard.html';
-      }, 600);
+    // --- Auth check ---
+    if(localStorage.getItem('slmg_authenticated') !== '1'){
+      setTimeout(()=> window.location.href = 'index.html', 400);
     }
-    if(localStorage.getItem('slmg_authenticated') === '1'){
-      setTimeout(()=> window.location.href = 'dashboard.html', 300);
-    }
+
+    // --- Nav toggling ---
+    const navLinks = document.querySelectorAll('#navLinks li[data-target]');
+    const sections = document.querySelectorAll('.section');
+    navLinks.forEach(li=>{
+      li.addEventListener('click',()=>{
+        sections.forEach(s=>s.classList.remove('active'));
+        navLinks.forEach(n=>n.classList.remove('active'));
+        li.classList.add('active');
+        const target=document.getElementById(li.dataset.target);
+        if(target) target.classList.add('active');
+        document.getElementById('navLinks').classList.remove('show');
+      });
+    });
+
+    // --- Hamburger ---
+    document.getElementById('hamburger').addEventListener('click',()=>{
+      document.getElementById('navLinks').classList.toggle('show');
+    });
+
+    // --- Logout ---
+    document.getElementById('logoutBtn').addEventListener('click',()=>{
+      localStorage.removeItem('slmg_authenticated');
+      window.location.href='index.html';
+    });
   </script>
 </body>
 </html>

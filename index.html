@@ -4,14 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SLMG Beverages — Portal Login</title>
-
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --coke-red: #F40009;
-      --slmg-blue: #0066B3;
       --bg: #f6f7f9;
       --card: #ffffff;
       --muted: #6b7280;
@@ -24,56 +21,52 @@
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
     }
     body {
-      background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+      background: var(--bg);
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 0;
-      color: #111;
+      align-items: center;
       min-height: 100vh;
     }
     .wrap {
+      display: flex;
       width: 100%;
       max-width: 980px;
       background: var(--card);
       border-radius: 12px;
       box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: row;
       overflow: hidden;
     }
     .left, .right {
       flex: 1;
+      padding: 32px;
       display: flex;
       flex-direction: column;
-      padding: 24px 32px;
     }
     .left {
       background: linear-gradient(180deg, rgba(244,0,9,0.03), transparent 40%);
-      justify-content: flex-start;
+      justify-content: space-between;
     }
     .top-logos {
       display: flex;
       gap: 24px;
-      align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 8px;
+      align-items: flex-start;
     }
     .top-logos img:first-child {
       height: 300px;
-      max-width: 300px;
       object-fit: contain;
     }
     .top-logos img:last-child {
       height: 200px;
-      max-width: 200px;
       object-fit: contain;
+    }
+    .content {
+      margin-top: 12px;
     }
     .hindi-tagline {
       font-size: 16px;
       font-weight: 600;
       color: var(--coke-red);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .title {
       font-size: 22px;
@@ -89,21 +82,29 @@
       font-size: 13px;
       color: var(--muted);
       line-height: 1.5;
-      margin-bottom: auto;
     }
     .coke-logo {
-      margin-top: auto;
-      text-align: left;
+      margin-top: 24px;
     }
     .coke-logo img {
       height: 45px;
-      width: auto;
       object-fit: contain;
     }
     .right {
       justify-content: center;
-      align-items: stretch;
-      background: #fff;
+    }
+    .login-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .login-header div:first-child {
+      font-weight: 700;
+    }
+    .login-header div:last-child {
+      font-size: 12px;
+      color: var(--muted);
     }
     .card {
       background: var(--card);
@@ -157,56 +158,51 @@
 <body>
   <div class="wrap">
     <div class="left">
-      <div class="top-logos">
-        <img src="SLMG logo.png" alt="SLMG Beverages">
-        <img src="logo.png" alt="Partner Logo">
+      <div>
+        <div class="top-logos">
+          <img src="SLMG logo.png" alt="SLMG Beverages">
+          <img src="logo.png" alt="Partner Logo">
+        </div>
+        <div class="content">
+          <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नजर, सही दिशा</div>
+          <h2 class="title">Welcome to SLMG Sales Portal</h2>
+          <div class="subtitle">A quick prototype dashboard for Primary & Secondary sales, transport, stock & distributor data.</div>
+          <div class="features">
+            • View last 6 months sales & stock charts<br>
+            • Responsive navigation for mobile and desktop<br>
+            • Ready to connect to Google Sheets / API
+          </div>
+        </div>
       </div>
-
-      <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नजर, सही दिशा</div>
-
-      <h2 class="title">Welcome to SLMG Sales Portal</h2>
-      <div class="subtitle">A quick prototype dashboard for Primary & Secondary sales, transport, stock & distributor data.</div>
-
-      <div class="features">
-        • View last 6 months sales & stock charts<br>
-        • Responsive navigation for mobile and desktop<br>
-        • Ready to connect to Google Sheets / API
-      </div>
-
       <div class="coke-logo">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png"
-             alt="Coca Cola">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca Cola">
       </div>
     </div>
 
     <div class="right">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div style="font-weight:700">Portal Login</div>
-        <div style="font-size:12px;color:var(--muted)">Prototype — no backend</div>
+      <div>
+        <div class="login-header">
+          <div>Portal Login</div>
+          <div>Prototype — no backend</div>
+        </div>
+        <form id="loginForm" class="card" onsubmit="handleLogin(event)">
+          <div style="margin-bottom:12px">
+            <label for="username">Username</label>
+            <input id="username" type="text" placeholder="e.g. ajay.kumar" required>
+          </div>
+          <div style="margin-bottom:6px">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="••••••••" required>
+          </div>
+          <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
+            <input id="remember" type="checkbox" />
+            <label for="remember" style="font-size:13px;color:var(--muted);margin:0">Remember me (local only)</label>
+          </div>
+          <button class="btn" type="submit">Login to Dashboard</button>
+          <div class="small">This is a prototype: any credentials will work. You will be redirected to the dashboard.</div>
+        </form>
+        <div class="footer-note">© <strong>SLMG Beverages LTD.</strong> — Prototype portal</div>
       </div>
-
-      <form id="loginForm" class="card" onsubmit="handleLogin(event)">
-        <div style="margin-bottom:12px">
-          <label for="username">Username</label>
-          <input id="username" type="text" placeholder="e.g. ajay.kumar" required>
-        </div>
-
-        <div style="margin-bottom:6px">
-          <label for="password">Password</label>
-          <input id="password" type="password" placeholder="••••••••" required>
-        </div>
-
-        <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
-          <input id="remember" type="checkbox" />
-          <label for="remember" style="font-size:13px;color:var(--muted);margin:0">Remember me (local only)</label>
-        </div>
-
-        <button class="btn" type="submit">Login to Dashboard</button>
-
-        <div class="small">This is a prototype: any credentials will work. You will be redirected to the dashboard.</div>
-      </form>
-
-      <div class="footer-note">© <strong>SLMG Beverages LTD.</strong> — Prototype portal</div>
     </div>
   </div>
 

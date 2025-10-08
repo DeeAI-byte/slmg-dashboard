@@ -48,17 +48,25 @@
     .left{
       background:linear-gradient(180deg, rgba(244,0,9,0.03), transparent 40%);
       gap:18px;
-      align-items:flex-start;
+      align-items:center;
     }
-    .brand{
+    .top-logos{
       display:flex;
-      align-items:flex-end;
-      gap:18px;
-      margin-bottom:6px;
+      gap:20px;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:10px;
     }
-    .title{font-size:22px;font-weight:700;color:#111}
-    .subtitle{color:var(--muted);font-size:14px}
-    .features{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5}
+    .hindi-tagline{
+      font-size:16px;
+      font-weight:600;
+      color:var(--coke-red);
+      text-align:center;
+      margin-bottom:20px;
+    }
+    .title{font-size:22px;font-weight:700;color:#111;text-align:center}
+    .subtitle{color:var(--muted);font-size:14px;text-align:center}
+    .features{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5;text-align:center}
     .right{
       background:#fff;
       gap:20px;
@@ -91,29 +99,31 @@
     }
     .small{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
     .footer-note{font-size:12px;color:#888;margin-top:6px;text-align:center}
+    .coke-logo{
+      margin-top:30px;
+      text-align:center;
+    }
+    .coke-logo img{
+      height:45px;
+      width:auto;
+      object-fit:contain;
+    }
     .mobile-only{display:none}
     @media (max-width:900px){
       .wrap{flex-direction:column;max-width:520px}
       .mobile-only{display:block;margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
-    }
-    .hindi-tagline{
-      font-size:15px;
-      font-weight:600;
-      color:var(--coke-red);
-      text-align:center;
-      margin-top:14px;
     }
   </style>
 </head>
 <body>
   <div class="wrap" role="main">
     <div class="left">
-      <div class="brand">
-        <img src="slmg-logo-v2.png" alt="SLMG Beverages" style="height:120px;width:auto;object-fit:contain;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png"
-             alt="Coca Cola" style="height:90px;width:auto;object-fit:contain;">
-        <img src="logo.png" alt="Partner Logo" style="height:90px;width:auto;object-fit:contain;">
+      <div class="top-logos">
+        <img src="slmg-logo-v2.png" alt="SLMG Beverages" style="height:100px;width:auto;object-fit:contain;">
+        <img src="logo.png" alt="Partner Logo" style="height:100px;width:auto;object-fit:contain;">
       </div>
+
+      <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नजर, सही दिशा</div>
 
       <h2 class="title">Welcome to SLMG Sales Portal</h2>
       <div class="subtitle">A quick prototype dashboard for Primary & Secondary sales, transport, stock & distributor data.</div>
@@ -122,6 +132,11 @@
         • View last 6 months sales & stock charts<br>
         • Responsive navigation for mobile and desktop<br>
         • Ready to connect to Google Sheets / API
+      </div>
+
+      <div class="coke-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png"
+             alt="Coca Cola">
       </div>
 
       <div class="mobile-only">Use any username & password to login (prototype).</div>
@@ -157,8 +172,6 @@
       <div class="footer-note">© <strong>SLMG Beverages LTD.</strong> — Prototype portal</div>
     </div>
   </div>
-
-  <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नजर, सही दिशा</div>
 
   <script>
     function handleLogin(e){

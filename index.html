@@ -3,207 +3,162 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SLMG Sales Portal</title>
+  <title>SLMG Beverages — Portal Login</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --coke-red: #F40009;
-      --bg: #f6f7f9;
-      --card: #ffffff;
-      --muted: #6b7280;
+    :root{
+      --coke-red:#F40009;
+      --slmg-blue:#0066B3;
+      --bg:#f6f7f9;
+      --card:#ffffff;
+      --muted:#6b7280;
       --shadow: 0 8px 24px rgba(16,24,40,0.06);
     }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{
+      background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      color:#111;
+      flex-direction:column;
     }
-    body {
-      background: var(--bg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    .wrap{
+      width:100%;
+      max-width:980px;
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:row;
     }
-    .wrap {
-      display: flex;
-      width: 100%;
-      max-width: 980px;
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .left, .right{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:48px 40px;
     }
-    .left, .right {
-      flex: 1;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
+    .left{
+      background:linear-gradient(180deg, rgba(244,0,9,0.03), transparent 40%);
+      gap:18px;
+      align-items:flex-start;
     }
-    .left {
-      background: linear-gradient(180deg, rgba(244,0,9,0.03), transparent 40%);
-      justify-content: space-between;
+    .brand{
+      display:flex;
+      align-items:flex-end;
+      gap:18px;
+      margin-bottom:6px;
     }
-    .top-logos {
-      display: flex;
-      gap: 24px;
-      align-items: flex-start;
+    .title{font-size:22px;font-weight:700;color:#111}
+    .subtitle{color:var(--muted);font-size:14px}
+    .features{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.5}
+    .right{
+      background:#fff;
+      gap:20px;
+      align-items:stretch;
     }
-    .top-logos img:first-child {
-      height: 300px;
-      object-fit: contain;
+    .card{
+      background:var(--card);
+      border-radius:10px;
+      padding:18px;
+      box-shadow:0 6px 18px rgba(16,24,40,0.04)
     }
-    .top-logos img:last-child {
-      height: 200px;
-      object-fit: contain;
+    label{font-size:13px;color:#333;margin-bottom:8px;display:block}
+    input[type=text],input[type=password]{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid #e6e9ee;
+      border-radius:8px;
+      font-size:14px
     }
-    .content {
-      margin-top: 12px;
+    .btn{
+      display:inline-block;
+      background:var(--coke-red);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:8px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+      width:100%
     }
-    .hindi-tagline {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--coke-red);
-      margin-bottom: 8px;
+    .small{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
+    .footer-note{font-size:12px;color:#888;margin-top:6px;text-align:center}
+    .mobile-only{display:none}
+    @media (max-width:900px){
+      .wrap{flex-direction:column;max-width:520px}
+      .mobile-only{display:block;margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
     }
-    .title {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-    .features {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    .coke-logo {
-      margin-top: 24px;
-    }
-    .coke-logo img {
-      height: 45px;
-      object-fit: contain;
-    }
-    .right {
-      justify-content: center;
-    }
-    .login-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .login-header div:first-child {
-      font-weight: 700;
-    }
-    .login-header div:last-child {
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .card {
-      background: var(--card);
-      border-radius: 10px;
-      padding: 18px;
-      box-shadow: 0 6px 18px rgba(16,24,40,0.04);
-    }
-    label {
-      font-size: 13px;
-      color: #333;
-      margin-bottom: 8px;
-      display: block;
-    }
-    input[type=text], input[type=password] {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #e6e9ee;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-    .btn {
-      background: var(--coke-red);
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-    }
-    .small {
-      font-size: 13px;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 6px;
-    }
-    .footer-note {
-      font-size: 12px;
-      color: #888;
-      margin-top: 6px;
-      text-align: center;
-    }
-    @media (max-width: 900px) {
-      .wrap {
-        flex-direction: column;
-        max-width: 520px;
-      }
+    .hindi-tagline{
+      font-size:15px;
+      font-weight:600;
+      color:var(--coke-red);
+      text-align:center;
+      margin-top:14px;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap" role="main">
     <div class="left">
-      <div>
-        <div class="top-logos">
-          <img src="SLMG logo.png" alt="SLMG Beverages">
-          <img src="logo.png" alt="Partner Logo">
-        </div>
-        <div class="content">
-          <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नजर, सही दिशा</div>
-          <h2 class="title">Welcome to SLMG Sales Portal</h2>
-          <div class="subtitle">A quick prototype dashboard for Primary & Secondary sales, transport, stock & distributor data.</div>
-          <div class="features">
-            • View last 6 months sales & stock charts<br>
-            • Responsive navigation for mobile and desktop<br>
-            • Ready to connect to Google Sheets / API
-          </div>
-        </div>
+      <div class="brand">
+        <img src="slmg-logo-v2.png" alt="SLMG Beverages" style="height:120px;width:auto;object-fit:contain;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png"
+             alt="Coca Cola" style="height:90px;width:auto;object-fit:contain;">
+        <img src="logo.png" alt="Partner Logo" style="height:90px;width:auto;object-fit:contain;">
       </div>
-      <div class="coke-logo">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca Cola">
+
+      <h2 class="title">Welcome to SLMG Sales Portal</h2>
+      <div class="subtitle">A quick prototype dashboard for Primary & Secondary sales, transport, stock & distributor data.</div>
+
+      <div class="features">
+        • View last 6 months sales & stock charts<br>
+        • Responsive navigation for mobile and desktop<br>
+        • Ready to connect to Google Sheets / API
       </div>
+
+      <div class="mobile-only">Use any username & password to login (prototype).</div>
     </div>
 
     <div class="right">
-      <div>
-        <div class="login-header">
-          <div>Portal Login</div>
-          <div>Prototype — no backend</div>
-        </div>
-        <form id="loginForm" class="card" onsubmit="handleLogin(event)">
-          <div style="margin-bottom:12px">
-            <label for="username">Username</label>
-            <input id="username" type="text" placeholder="e.g. ajay.kumar" required>
-          </div>
-          <div style="margin-bottom:6px">
-            <label for="password">Password</label>
-            <input id="password" type="password" placeholder="••••••••" required>
-          </div>
-          <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
-            <input id="remember" type="checkbox" />
-            <label for="remember" style="font-size:13px;color:var(--muted);margin:0">Remember me (local only)</label>
-          </div>
-          <button class="btn" type="submit">Login to Dashboard</button>
-          <div class="small">This is a prototype: any credentials will work. You will be redirected to the dashboard.</div>
-        </form>
-        <div class="footer-note">© <strong>SLMG Beverages LTD.</strong> — Prototype portal</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">Portal Login</div>
+        <div style="font-size:12px;color:var(--muted)">Prototype — no backend</div>
       </div>
+
+      <form id="loginForm" class="card" onsubmit="handleLogin(event)">
+        <div style="margin-bottom:12px">
+          <label for="username">Username</label>
+          <input id="username" type="text" placeholder="e.g. ajay.kumar" required>
+        </div>
+
+        <div style="margin-bottom:6px">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="••••••••" required>
+        </div>
+
+        <div style="margin:10px 0;display:flex;gap:10px;align-items:center;">
+          <input id="remember" type="checkbox" />
+          <label for="remember" style="font-size:13px;color:var(--muted);margin:0">Remember me (local only)</label>
+        </div>
+
+        <button class="btn" type="submit">Login to Dashboard</button>
+
+        <div class="small">This is a prototype: any credentials will work. You will be redirected to the dashboard.</div>
+      </form>
+
+      <div class="footer-note">© <strong>SLMG Beverages LTD.</strong> — Prototype portal</div>
     </div>
   </div>
+
+  <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नजर, सही दिशा</div>
 
   <script>
     function handleLogin(e){

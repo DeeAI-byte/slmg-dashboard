@@ -3,226 +3,283 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SLMG Sales Dashboard</title>
+  <title>SLMG Beverages — Dashboard</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
   <style>
-    :root {
-      --coke-red: #F40009;
-      --slmg-blue: #0066B3;
-      --bg: #f6f7f9;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --shadow: 0 8px 24px rgba(16,24,40,0.06);
+    :root{
+      --coke-red:#F40009;
+      --slmg-blue:#0066B3;
+      --bg:#f5f6f8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --shadow: 0 10px 30px rgba(16,24,40,0.06);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; }
-    body { background: var(--bg); color: #111; min-height: 100vh; }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{background:var(--bg);color:#111;min-height:100vh;line-height:1.4}
+    header{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:sticky;top:0;z-index:30}
+    .header-logos{display:flex;align-items:center;gap:18px;}
 
-    header {
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 10px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .header-logos {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
+    /* ⚖️ Balanced logo sizes */
     .header-logos img {
-      display: block;
-      object-fit: contain;
-      vertical-align: middle;
+      display:block;
+      object-fit:contain;
+      vertical-align:middle;
     }
-
-    /* Make SLMG slightly larger */
     .header-logos img:first-child {
-      height: 70px;        /* increased */
-      transform: scale(1.25);
-      transform-origin: center;
+      height:58px;
+      transform:scale(1.15);
+      transform-origin:center;
     }
-
-    /* Make Coca-Cola slightly smaller */
     .header-logos img:last-child {
-      height: 60px;
-      opacity: 0.96;
+      height:54px;
+      opacity:0.97;
     }
 
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 22px;
-      border-top: 1px solid #eee;
-      background: #fff;
-      font-weight: 600;
-      padding: 12px;
+    .hamburger{display:none;cursor:pointer;}
+    .hamburger span{display:block;width:26px;height:3px;background:#333;border-radius:3px;margin:4px 0;transition:all .25s}
+    nav{background:#fff;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,0.03);position:relative}
+    .nav-links{display:flex;gap:8px;list-style:none;flex-wrap:wrap}
+    .nav-links li{padding:10px 12px;border-radius:8px;cursor:pointer;color:#333;font-weight:600}
+    .nav-links li.active{background:linear-gradient(90deg, rgba(244,0,9,0.08), transparent);color:var(--coke-red)}
+    .container{max-width:1200px;margin:22px auto;padding:0 16px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .main{display:flex;flex-direction:column;gap:18px}
+    .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow)}
+    .card-title{font-size:13px;color:var(--muted);margin-bottom:8px}
+    .card-value{font-weight:700;font-size:20px}
+    .positive{color:#16a34a}
+    .negative{color:#ef4444}
+    .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .chart-box{padding:12px;border-radius:10px;background:var(--card);box-shadow:var(--shadow)}
+    .activity{padding:12px;border-radius:10px;background:var(--card);box-shadow:var(--shadow)}
+    footer{margin-top:30px;padding:18px;text-align:center;color:#555;font-size:13px}
+    @media (max-width:1000px){
+      .grid{grid-template-columns:1fr}
+      .charts{grid-template-columns:1fr}
     }
-    nav a {
-      text-decoration: none;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.3s;
+    @media (max-width:760px){
+      .hamburger{display:block}
+      .nav-links{display:none;position:absolute;left:0;top:62px;width:100%;flex-direction:column;background:#fff;padding:10px;border-top:1px solid #eee}
+      .nav-links.show{display:flex}
     }
-    nav a.active { color: var(--coke-red); }
-    nav a:hover { color: var(--slmg-blue); }
-
-    main { padding: 30px; max-width: 1200px; margin: 0 auto; }
-
-    .section { display: none; animation: fadeIn 0.3s ease-in-out; }
-    .section.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    th, td {
-      padding: 10px 14px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-    th { background: #fafafa; font-weight: 600; }
-    tr:hover { background: #f9fafb; }
-    canvas { margin-top: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 20px; }
-
-    .footer-note {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-      margin: 24px 0;
-    }
-    .logout {
-      margin-left: auto;
-      cursor: pointer;
-      font-weight: 600;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .section{display:none}
+    .section.active{display:block}
+    .small-muted{font-size:13px;color:var(--muted)}
+    .logout{background:transparent;border:1px solid #eee;padding:8px 10px;border-radius:8px;cursor:pointer}
+    .hindi-tagline{font-size:15px;font-weight:600;color:var(--coke-red);text-align:center;margin:12px 0 20px;}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+    th,td{padding:8px;border-bottom:1px solid #f0f0f0;text-align:left}
+    th{color:var(--muted);font-size:13px}
   </style>
 </head>
 <body>
   <header>
     <div class="header-logos">
-      <img src="SLMG logo.png" alt="SLMG Beverages">
+      <img id="slmgImg" src="SLMG logo.png" alt="SLMG Beverages">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
     </div>
-    <div class="logout" onclick="logout()">↩️ Logout</div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </header>
 
   <nav>
-    <a href="#" class="active" onclick="showSection('dashboard')">🏠 Dashboard</a>
-    <a href="#" onclick="showSection('production')">🏭 Production</a>
-    <a href="#" onclick="showSection('primary')">🛒 Primary Sales</a>
-    <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
-    <a href="#" onclick="showSection('transport')">🚚 Transport</a>
-    <a href="#" onclick="showSection('stock')">📦 Stock</a>
-    <a href="#" onclick="showSection('distributors')">👥 Distributors</a>
+    <ul class="nav-links" id="navLinks">
+      <li data-target="dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</li>
+      <li data-target="production"><i class="fas fa-industry"></i> Production</li>
+      <li data-target="primarySales"><i class="fas fa-shopping-cart"></i> Primary Sales</li>
+      <li data-target="secondarySales"><i class="fas fa-store"></i> Secondary Sales</li>
+      <li data-target="transport"><i class="fas fa-truck"></i> Transport</li>
+      <li data-target="stock"><i class="fas fa-boxes"></i> Stock</li>
+      <li data-target="distributors"><i class="fas fa-users"></i> Distributors</li>
+      <li id="logoutBtn" style="margin-left:auto;"><i class="fas fa-sign-out-alt"></i> Logout</li>
+    </ul>
   </nav>
 
-  <main>
-    <!-- Dashboard -->
-    <section id="dashboard" class="section active">
-      <h2>📊 Overview Dashboard</h2>
-      <canvas id="salesChart" height="100"></canvas>
-      <canvas id="prodChart" height="100"></canvas>
-    </section>
+  <div class="container">
+    <div class="grid">
+      <div class="main">
+        <div id="dashboard" class="section active">
+          <h2>Sales & Distribution Dashboard</h2>
+          <div class="small-muted">Overview of key performance indicators</div>
 
-    <!-- Production -->
-    <section id="production" class="section">
-      <h2>🏭 Production Data</h2>
-      <table>
-        <tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles Produced</th></tr>
-        <tr><td>1 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>1,45,000</td></tr>
-        <tr><td>1 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>1,32,000</td></tr>
-        <tr><td>2 Oct 2025</td><td>Lucknow</td><td>Night</td><td>1,25,000</td></tr>
-      </table>
-    </section>
+          <div class="kpi-row" style="margin-top:12px">
+            <div class="card"><div class="card-title">Production (Today)</div><div class="card-value">1,25,000 Units</div><div class="small-muted positive">▲ +5.3%</div></div>
+            <div class="card"><div class="card-title">Primary Sales (MTD)</div><div class="card-value">₹4.82 Cr</div><div class="small-muted positive">▲ +12.5%</div></div>
+            <div class="card"><div class="card-title">Secondary Sales (MTD)</div><div class="card-value">₹5.34 Cr</div><div class="small-muted positive">▲ +8.3%</div></div>
+            <div class="card"><div class="card-title">Vehicles Active</div><div class="card-value">42</div><div class="small-muted negative">2 under maintenance</div></div>
+            <div class="card"><div class="card-title">Stock Health</div><div class="card-value">78%</div><div class="small-muted positive">Optimal</div></div>
+          </div>
 
-    <!-- Primary Sales -->
-    <section id="primary" class="section">
-      <h2>🛒 Primary Sales</h2>
-      <table>
-        <tr><th>Date</th><th>Distributor</th><th>Region</th><th>Sales (₹)</th></tr>
-        <tr><td>1 Oct 2025</td><td>Krishna Traders</td><td>Lucknow</td><td>₹12,45,000</td></tr>
-        <tr><td>1 Oct 2025</td><td>Rama Beverages</td><td>Faizabad</td><td>₹9,80,000</td></tr>
-      </table>
-    </section>
+          <div class="charts" style="margin-top:14px">
+            <div class="chart-box">
+              <div style="font-weight:700;margin-bottom:6px">Sales (Last 6 Months)</div>
+              <canvas id="salesChart"></canvas>
+            </div>
+            <div class="chart-box">
+              <div style="font-weight:700;margin-bottom:6px">Production vs Sales</div>
+              <canvas id="prodChart"></canvas>
+            </div>
+          </div>
+        </div>
 
-    <!-- Secondary Sales -->
-    <section id="secondary" class="section">
-      <h2>🏬 Secondary Sales</h2>
-      <table>
-        <tr><th>Date</th><th>Retailer</th><th>City</th><th>Units Sold</th></tr>
-        <tr><td>1 Oct 2025</td><td>Super Mart</td><td>Lucknow</td><td>2,150</td></tr>
-        <tr><td>1 Oct 2025</td><td>Shop 24x7</td><td>Faizabad</td><td>1,780</td></tr>
-      </table>
-    </section>
+        <div id="production" class="section">
+          <div class="card">
+            <h3>Production Summary</h3>
+            <p class="small-muted">Daily bottling output by line</p>
+            <table>
+              <thead><tr><th>Date</th><th>Line 1</th><th>Line 2</th><th>Line 3</th><th>Total Units</th></tr></thead>
+              <tbody>
+                <tr><td>4 Oct</td><td>38,000</td><td>42,000</td><td>45,000</td><td>1,25,000</td></tr>
+                <tr><td>3 Oct</td><td>36,500</td><td>39,800</td><td>44,200</td><td>1,20,500</td></tr>
+                <tr><td>2 Oct</td><td>37,000</td><td>40,000</td><td>43,500</td><td>1,20,500</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-    <!-- Transport -->
-    <section id="transport" class="section">
-      <h2>🚚 Transport Summary</h2>
-      <table>
-        <tr><th>Date</th><th>Truck No</th><th>Route</th><th>Status</th></tr>
-        <tr><td>1 Oct 2025</td><td>UP32 AJ 9987</td><td>Lucknow – Ayodhya</td><td>Delivered</td></tr>
-        <tr><td>2 Oct 2025</td><td>UP32 AC 5567</td><td>Faizabad – Sultanpur</td><td>In Transit</td></tr>
-      </table>
-    </section>
+        <div id="primarySales" class="section">
+          <div class="card">
+            <h3>Primary Sales</h3>
+            <table>
+              <thead><tr><th>Order</th><th>Distributor</th><th>Qty (Cases)</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>#45912</td><td>North Traders</td><td>1,350</td><td>₹1,45,000</td></tr>
+                <tr><td>#45892</td><td>South Distributors</td><td>1,200</td><td>₹1,24,000</td></tr>
+                <tr><td>#45860</td><td>East Retail</td><td>900</td><td>₹92,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-    <!-- Stock -->
-    <section id="stock" class="section">
-      <h2>📦 Stock Levels</h2>
-      <table>
-        <tr><th>SKU</th><th>Warehouse</th><th>Qty Available</th></tr>
-        <tr><td>Coca-Cola 500ml</td><td>Lucknow</td><td>52,000</td></tr>
-        <tr><td>Sprite 1L</td><td>Faizabad</td><td>35,500</td></tr>
-      </table>
-    </section>
+        <div id="secondarySales" class="section">
+          <div class="card">
+            <h3>Secondary Sales</h3>
+            <table>
+              <thead><tr><th>Retailer</th><th>Region</th><th>Qty Sold</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Vishal Mega Mart</td><td>Lucknow</td><td>320</td><td>₹36,800</td></tr>
+                <tr><td>Big Bazaar</td><td>Kanpur</td><td>290</td><td>₹31,200</td></tr>
+                <tr><td>More Supermarket</td><td>Varanasi</td><td>250</td><td>₹27,600</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-    <!-- Distributors -->
-    <section id="distributors" class="section">
-      <h2>👥 Distributors Data</h2>
-      <table>
-        <tr><th>Name</th><th>City</th><th>Contact</th><th>Sales (₹)</th></tr>
-        <tr><td>Krishna Traders</td><td>Lucknow</td><td>0522-456789</td><td>₹12,45,000</td></tr>
-        <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
-      </table>
-    </section>
-  </main>
+        <div id="transport" class="section">
+          <div class="card">
+            <h3>Transport Overview</h3>
+            <table>
+              <thead><tr><th>Vehicle ID</th><th>Status</th><th>Route</th><th>Last Update</th></tr></thead>
+              <tbody>
+                <tr><td>TRK-784</td><td>Active</td><td>Lucknow → Raebareli</td><td>2h ago</td></tr>
+                <tr><td>TRK-689</td><td>Maintenance</td><td>—</td><td>Today</td></tr>
+                <tr><td>TRK-432</td><td>Active</td><td>Lucknow → Ayodhya</td><td>5h ago</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-  <div class="footer-note">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>© SLMG Beverages LTD. — Prototype Portal</div>
+        <div id="stock" class="section">
+          <div class="card">
+            <h3>Stock Levels</h3>
+            <table>
+              <thead><tr><th>Product</th><th>Warehouse</th><th>Available (Cases)</th><th>Days of Cover</th></tr></thead>
+              <tbody>
+                <tr><td>Coca-Cola 500ml</td><td>Lucknow</td><td>4,200</td><td>6</td></tr>
+                <tr><td>Sprite 1L</td><td>Gorakhpur</td><td>3,100</td><td>5</td></tr>
+                <tr><td>Fanta 500ml</td><td>Varanasi</td><td>2,800</td><td>4</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="distributors" class="section">
+          <div class="card">
+            <h3>Distributor Directory</h3>
+            <table>
+              <thead><tr><th>Name</th><th>Region</th><th>Active Since</th><th>Contact</th></tr></thead>
+              <tbody>
+                <tr><td>South Distributors Pvt Ltd</td><td>South</td><td>2018</td><td>+91 91234 56789</td></tr>
+                <tr><td>East Retail</td><td>East</td><td>2020</td><td>+91 98765 43210</td></tr>
+                <tr><td>North Traders</td><td>North</td><td>2019</td><td>+91 99876 54321</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <div style="font-weight:700">Quick Actions</div>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+            <button class="logout" id="exportBtn"><i class="fas fa-file-export"></i> Export CSV</button>
+            <button class="logout" id="importBtn"><i class="fas fa-file-import"></i> Import Sheet</button>
+            <button class="logout" id="refreshBtn"><i class="fas fa-sync"></i> Refresh Data</button>
+          </div>
+        </div>
+
+        <div class="activity card">
+          <div style="font-weight:700;margin-bottom:8px">Alerts</div>
+          <ul style="list-style:none;padding:0;">
+            <li>🚚 Vehicle TRK-689 under maintenance</li>
+            <li>📦 Low stock: Fanta 500ml</li>
+            <li>🏭 Production line 2 operating at 98%</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div>© SLMG Beverages LTD. — Prototype Dashboard</div>
+      <div class="hindi-tagline">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा</div>
+    </footer>
+  </div>
 
   <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-      event.target.classList.add('active');
-    }
+    // ---------- Image fallback loader ----------
+    (function(){
+      const img = document.getElementById('slmgImg');
+      const candidates = [
+        'SLMG logo.png',
+        'SLMG%20logo.png',
+        './SLMG logo.png',
+        'slmg-logo.png',
+        './slmg-logo.png',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/SLMG_Beverages_Logo.png/400px-SLMG_Beverages_Logo.png'
+      ];
+      let i = 0;
+      img.onerror = function tryNext(){
+        i++;
+        if(i < candidates.length) img.src = candidates[i];
+      };
+      img.src = candidates[0];
+    })();
 
-    function logout() {
-      localStorage.removeItem('slmg_authenticated');
+    // ---------- Auth & Navigation ----------
+    if(localStorage.getItem('slmg_authenticated') !== '1'){
       window.location.href = 'index.html';
     }
+    const navLinks = document.querySelectorAll('#navLinks li[data-target]');
+    const sections = document.querySelectorAll('.section');
+    navLinks.forEach(li => li.addEventListener('click', ()=> {
+      sections.forEach(s=>s.classList.remove('active'));
+      document.getElementById(li.dataset.target).classList.add('active');
+      navLinks.forEach(n=>n.classList.remove('active'));
+      li.classList.add('active');
+    }));
+    document.getElementById('hamburger').addEventListener('click', ()=> document.getElementById('navLinks').classList.toggle('show'));
+    document.getElementById('logoutBtn').addEventListener('click', ()=> {localStorage.removeItem('slmg_authenticated');window.location.href='index.html';});
 
+    // ---------- Quick actions ----------
+    document.getElementById('refreshBtn').addEventListener('click', ()=> alert('Data refreshed (prototype).'));
+    document.getElementById('exportBtn').addEventListener('click', ()=> alert('Exported to CSV (prototype).'));
+    document.getElementById('importBtn').addEventListener('click', ()=> alert('Imported sample sheet (prototype).'));
+
+    // ---------- Charts ----------
     const salesCtx = document.getElementById('salesChart');
     const prodCtx = document.getElementById('prodChart');
     const labels = ["Apr","May","Jun","Jul","Aug","Sep"];

@@ -16,13 +16,14 @@
       --bg:#f5f6f8;
       --card:#ffffff;
       --muted:#6b7280;
-      --shadow:0 10px 30px rgba(16,24,40,0.06);
+      --shadow: 0 10px 30px rgba(16,24,40,0.06);
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
     body{background:var(--bg);color:#111;min-height:100vh;line-height:1.4}
     header{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:sticky;top:0;z-index:30}
     .header-logos{display:flex;align-items:center;gap:18px;}
-    .header-logos img{height:50px;object-fit:contain;}
+    /* both logos same height and centered */
+    .header-logos img{height:56px;object-fit:contain;display:block;vertical-align:middle;}
     .hamburger{display:none;cursor:pointer;}
     .hamburger span{display:block;width:26px;height:3px;background:#333;border-radius:3px;margin:4px 0;transition:all .25s}
     nav{background:#fff;padding:10px 18px;box-shadow:0 2px 8px rgba(0,0,0,0.03);position:relative}
@@ -64,9 +65,12 @@
 <body>
   <header>
     <div class="header-logos">
-      <img src="slmg-logo.png" alt="SLMG Beverages">
+      <!-- SLMG image element: src will be set/attempted via JS fallbacks below -->
+      <img id="slmgImg" src="SLMG logo.png" alt="SLMG Beverages (attempting to load)" crossorigin="anonymous">
+      <!-- Coca-Cola logo (public stable URL) -->
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
     </div>
+
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </header>
 
@@ -86,7 +90,6 @@
   <div class="container">
     <div class="grid">
       <div class="main">
-
         <!-- Dashboard Overview -->
         <div id="dashboard" class="section active">
           <h2>Sales & Distribution Dashboard</h2>
@@ -234,6 +237,32 @@
   </div>
 
   <script>
+    // ---------- Image fallback loader (tries several filename variants) ----------
+    (function(){
+      const img = document.getElementById('slmgImg');
+      const candidates = [
+        'SLMG logo.png',        // exact name you said index uses
+        'SLMG%20logo.png',      // URL-encoded space
+        './SLMG logo.png',      // relative path
+        'slmg-logo.png',        // common safer name
+        './slmg-logo.png',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/SLMG_Beverages_Logo.png/400px-SLMG_Beverages_Logo.png' // public fallback
+      ];
+      let i = 0;
+      img.onerror = function tryNext(){
+        i++;
+        if(i < candidates.length){
+          img.src = candidates[i];
+        } else {
+          console.warn('SLMG logo not found in any candidate paths:', candidates);
+          img.alt = 'SLMG logo not found';
+        }
+      };
+      // start with first candidate (page may have set one already)
+      img.src = candidates[0];
+    })();
+
+    // ---------- Auth & Navigation ----------
     if(localStorage.getItem('slmg_authenticated') !== '1'){
       window.location.href = 'index.html';
     }
@@ -247,14 +276,17 @@
     }));
     document.getElementById('hamburger').addEventListener('click', ()=> document.getElementById('navLinks').classList.toggle('show'));
     document.getElementById('logoutBtn').addEventListener('click', ()=> {localStorage.removeItem('slmg_authenticated');window.location.href='index.html';});
+
+    // ---------- Quick actions ----------
     document.getElementById('refreshBtn').addEventListener('click', ()=> alert('Data refreshed (prototype).'));
     document.getElementById('exportBtn').addEventListener('click', ()=> alert('Exported to CSV (prototype).'));
     document.getElementById('importBtn').addEventListener('click', ()=> alert('Imported sample sheet (prototype).'));
 
-    // Charts
+    // ---------- Charts ----------
     const salesCtx = document.getElementById('salesChart');
     const prodCtx = document.getElementById('prodChart');
     const labels = ["Apr","May","Jun","Jul","Aug","Sep"];
+
     new Chart(salesCtx, {
       type: 'bar',
       data: {
@@ -266,13 +298,14 @@
       },
       options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
     });
+
     new Chart(prodCtx, {
       type: 'line',
       data: {
         labels,
         datasets: [
-          { label: 'Production Volume', data: [120,125,118,130,140,135], borderColor: '#16a34a', backgroundColor: 'rgba(22,163,74,0.2)', fill: true },
-          { label: 'Sales Volume', data: [110,118,115,122,134,128], borderColor: '#F40009', backgroundColor: 'rgba(244,0,9,0.2)', fill: true }
+          { label: 'Production Volume', data: [120,125,118,130,140,135], borderColor: '#16a34a', backgroundColor: 'rgba(22,163,74,0.12)', fill:true },
+          { label: 'Sales Volume', data: [110,118,115,122,134,128], borderColor: '#F40009', backgroundColor: 'rgba(244,0,9,0.12)', fill:true }
         ]
       },
       options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }

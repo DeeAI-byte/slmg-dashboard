@@ -21,18 +21,17 @@
     header {
       background: var(--card);
       box-shadow: var(--shadow);
-      padding: 10px 40px;
+      padding: 10px 30px;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .header-logos {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 28px;
-      margin-bottom: 8px;
+      gap: 20px;
     }
 
     .header-logos img {
@@ -41,18 +40,17 @@
       vertical-align: middle;
     }
 
-    /* SLMG logo - visually balanced */
+    /* Make SLMG slightly larger */
     .header-logos img:first-child {
-      height: 78px;
+      height: 70px;        /* increased */
       transform: scale(1.25);
       transform-origin: center;
-      margin-top: 4px;
     }
 
-    /* Coca-Cola logo - slightly smaller for optical equality */
+    /* Make Coca-Cola slightly smaller */
     .header-logos img:last-child {
       height: 60px;
-      opacity: 0.95;
+      opacity: 0.96;
     }
 
     nav {
@@ -60,11 +58,11 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 22px;
       border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      padding: 12px;
+      background: #fff;
       font-weight: 600;
+      padding: 12px;
     }
     nav a {
       text-decoration: none;
@@ -76,12 +74,10 @@
     }
     nav a.active { color: var(--coke-red); }
     nav a:hover { color: var(--slmg-blue); }
+
     main { padding: 30px; max-width: 1200px; margin: 0 auto; }
 
-    .section {
-      display: none;
-      animation: fadeIn 0.3s ease-in-out;
-    }
+    .section { display: none; animation: fadeIn 0.3s ease-in-out; }
     .section.active { display: block; }
 
     @keyframes fadeIn {
@@ -102,10 +98,7 @@
       border-bottom: 1px solid #eee;
       text-align: left;
     }
-    th {
-      background: #fafafa;
-      font-weight: 600;
-    }
+    th { background: #fafafa; font-weight: 600; }
     tr:hover { background: #f9fafb; }
     canvas { margin-top: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 20px; }
 
@@ -115,7 +108,6 @@
       color: var(--muted);
       margin: 24px 0;
     }
-
     .logout {
       margin-left: auto;
       cursor: pointer;
@@ -133,17 +125,18 @@
       <img src="SLMG logo.png" alt="SLMG Beverages">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
     </div>
-    <nav>
-      <a href="#" class="active" onclick="showSection('dashboard')">🏠 Dashboard</a>
-      <a href="#" onclick="showSection('production')">🏭 Production</a>
-      <a href="#" onclick="showSection('primary')">🛒 Primary Sales</a>
-      <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
-      <a href="#" onclick="showSection('transport')">🚚 Transport</a>
-      <a href="#" onclick="showSection('stock')">📦 Stock</a>
-      <a href="#" onclick="showSection('distributors')">👥 Distributors</a>
-      <a class="logout" onclick="logout()">↩️ Logout</a>
-    </nav>
+    <div class="logout" onclick="logout()">↩️ Logout</div>
   </header>
+
+  <nav>
+    <a href="#" class="active" onclick="showSection('dashboard')">🏠 Dashboard</a>
+    <a href="#" onclick="showSection('production')">🏭 Production</a>
+    <a href="#" onclick="showSection('primary')">🛒 Primary Sales</a>
+    <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
+    <a href="#" onclick="showSection('transport')">🚚 Transport</a>
+    <a href="#" onclick="showSection('stock')">📦 Stock</a>
+    <a href="#" onclick="showSection('distributors')">👥 Distributors</a>
+  </nav>
 
   <main>
     <!-- Dashboard -->

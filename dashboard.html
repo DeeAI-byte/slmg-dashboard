@@ -27,25 +27,30 @@
       justify-content: space-between;
       flex-wrap: wrap;
     }
+
     .header-logos {
       display: flex;
       align-items: center;
       gap: 20px;
     }
+
     .header-logos img {
       display: block;
       object-fit: contain;
       vertical-align: middle;
     }
+
     .header-logos img:first-child {
       height: 70px;
       transform: scale(1.25);
       transform-origin: center;
     }
+
     .header-logos img:last-child {
       height: 60px;
       opacity: 0.96;
     }
+
     nav {
       display: flex;
       align-items: center;
@@ -69,6 +74,7 @@
     nav a:hover { color: var(--slmg-blue); }
 
     main { padding: 30px; max-width: 1200px; margin: 0 auto; }
+
     .section { display: none; animation: fadeIn 0.3s ease-in-out; }
     .section.active { display: block; }
 
@@ -93,6 +99,7 @@
     }
     th { background: #fafafa; font-weight: 600; }
     tr:hover { background: #f9fafb; }
+
     canvas {
       margin-top: 20px;
       background: #fff;
@@ -107,6 +114,7 @@
       color: var(--muted);
       margin: 24px 0;
     }
+
     .logout {
       margin-left: auto;
       cursor: pointer;
@@ -116,6 +124,10 @@
       align-items: center;
       gap: 6px;
     }
+
+    /* Tint styles for Marketing & Execution */
+    #marketing h2 { color: var(--coke-red); }
+    #execution h2 { color: #16a34a; }
   </style>
 </head>
 <body>
@@ -134,8 +146,8 @@
     <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
     <a href="#" onclick="showSection('transport')">🚚 Transport</a>
     <a href="#" onclick="showSection('stock')">📦 Stock</a>
-    <a href="#" onclick="showSection('marketing')">📣 Marketing</a>
-    <a href="#" onclick="showSection('execution')">🧩 Execution</a>
+    <a href="#" onclick="showSection('marketing')">🧭 Marketing</a>
+    <a href="#" onclick="showSection('execution')">⚙️ Execution</a>
   </nav>
 
   <main>
@@ -150,7 +162,7 @@
     <section id="production" class="section">
       <h2>🏭 Production Data</h2>
       <table>
-        <tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles Produced</th></tr>
+        <tr><th>Date</th><th>Plant</><th>Shift</th><th>Bottles Produced</th></tr>
         <tr><td>1 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>1,45,000</td></tr>
         <tr><td>1 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>1,32,000</td></tr>
         <tr><td>2 Oct 2025</td><td>Lucknow</td><td>Night</td><td>1,25,000</td></tr>
@@ -199,36 +211,45 @@
 
     <!-- Marketing -->
     <section id="marketing" class="section">
-      <h2>📣 Marketing Performance</h2>
+      <h2>🧭 Marketing Performance</h2>
       <table>
-        <tr><th>Campaign</th><th>Region</th><th>QPS (Avg)</th><th>Scheme Running</th></tr>
-        <tr><td>Festive Combo Offer</td><td>Uttar Pradesh</td><td>95%</td><td>Buy 2 Get 1 Free</td></tr>
-        <tr><td>Summer Coolers</td><td>Lucknow</td><td>89%</td><td>Free Crates for 100+ Cases</td></tr>
-        <tr><td>College Activation</td><td>Varanasi</td><td>92%</td><td>Campus Sampling Drive</td></tr>
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>QPS Target</td><td>120</td></tr>
+        <tr><td>QPS Achieved</td><td>110</td></tr>
+        <tr><td>Achievement %</td><td>91.6%</td></tr>
+        <tr><td>Active Scheme</td><td>Festive Rush Offer 2025 — Buy More, Earn More!</td></tr>
       </table>
       <canvas id="marketingChart" height="100"></canvas>
     </section>
 
     <!-- Execution -->
     <section id="execution" class="section">
-      <h2>🧩 Execution Overview</h2>
+      <h2>⚙️ Execution Overview</h2>
       <h3 style="margin-top:10px;">👥 Distributors</h3>
       <table>
-        <tr><th>Name</th><th>City</th><th>Contact</th><th>Sales (₹)</th></tr>
-        <tr><td>Krishna Traders</td><td>Lucknow</td><td>0522-456789</td><td>₹12,45,000</td></tr>
-        <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
+        <tr><th>Name</th><th>Region</th><th>Sales (₹ Lakh)</th><th>Coverage (%)</th></tr>
+        <tr><td>ABC Traders</td><td>East</td><td>52</td><td>92%</td></tr>
+        <tr><td>Shree Agency</td><td>North</td><td>48</td><td>88%</td></tr>
+        <tr><td>CoolZone Pvt Ltd</td><td>West</td><td>61</td><td>96%</td></tr>
+        <tr><td>Sagar Beverages</td><td>South</td><td>45</td><td>90%</td></tr>
       </table>
 
-      <h3 style="margin-top:20px;">📍 RED (Retail Execution Data)</h3>
+      <h3 style="margin-top:20px;">🧊 RED — SKU Visibility in Visi Coolers</h3>
       <table>
-        <tr><th>Outlet</th><th>City</th><th>Visi Cooler Status</th><th>Last Audit</th></tr>
-        <tr><td>Super Mart</td><td>Lucknow</td><td>Working</td><td>5 Oct 2025</td></tr>
-        <tr><td>Cool Point</td><td>Faizabad</td><td>Needs Repair</td><td>3 Oct 2025</td></tr>
+        <tr><th>SKU</th><th>Visibility %</th></tr>
+        <tr><td>Coca-Cola 500ml</td><td>85%</td></tr>
+        <tr><td>Sprite 250ml</td><td>78%</td></tr>
+        <tr><td>Fanta 1L</td><td>82%</td></tr>
+        <tr><td>Limca 600ml</td><td>75%</td></tr>
       </table>
+      <canvas id="redChart" height="100"></canvas>
     </section>
   </main>
 
-  <div class="footer-note">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>© SLMG Beverages LTD. — Prototype Portal</div>
+  <div class="footer-note">
+    प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>
+    © SLMG Beverages LTD. — Prototype Portal
+  </div>
 
   <script>
     function showSection(id) {
@@ -267,6 +288,24 @@
         ]
       },
       options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    new Chart(document.getElementById('marketingChart'), {
+      type: 'bar',
+      data: {
+        labels: ['East', 'West', 'North', 'South'],
+        datasets: [{ label: 'QPS Achievement %', data: [92, 88, 95, 90], backgroundColor: '#F40009' }]
+      },
+      options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    new Chart(document.getElementById('redChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Coke 500ml','Sprite 250ml','Fanta 1L','Limca 600ml'],
+        datasets: [{ label: 'RED Visibility %', data: [85,78,82,75], backgroundColor: '#16a34a' }]
+      },
+      options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max:100 } } }
     });
   </script>
 </body>

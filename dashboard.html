@@ -27,25 +27,32 @@
       justify-content: space-between;
       flex-wrap: wrap;
     }
+
     .header-logos {
       display: flex;
       align-items: center;
       gap: 20px;
     }
+
     .header-logos img {
       display: block;
       object-fit: contain;
       vertical-align: middle;
     }
+
+    /* Make SLMG slightly larger */
     .header-logos img:first-child {
-      height: 70px;
+      height: 70px;        /* increased */
       transform: scale(1.25);
       transform-origin: center;
     }
+
+    /* Make Coca-Cola slightly smaller */
     .header-logos img:last-child {
       height: 60px;
       opacity: 0.96;
     }
+
     nav {
       display: flex;
       align-items: center;
@@ -69,6 +76,7 @@
     nav a:hover { color: var(--slmg-blue); }
 
     main { padding: 30px; max-width: 1200px; margin: 0 auto; }
+
     .section { display: none; animation: fadeIn 0.3s ease-in-out; }
     .section.active { display: block; }
 
@@ -84,7 +92,6 @@
       box-shadow: var(--shadow);
       border-radius: 10px;
       overflow: hidden;
-      margin-top: 10px;
     }
     th, td {
       padding: 10px 14px;
@@ -93,13 +100,7 @@
     }
     th { background: #fafafa; font-weight: 600; }
     tr:hover { background: #f9fafb; }
-    canvas {
-      margin-top: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
+    canvas { margin-top: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 20px; }
 
     .footer-note {
       text-align: center;
@@ -134,8 +135,7 @@
     <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
     <a href="#" onclick="showSection('transport')">🚚 Transport</a>
     <a href="#" onclick="showSection('stock')">📦 Stock</a>
-    <a href="#" onclick="showSection('marketing')">📣 Marketing</a>
-    <a href="#" onclick="showSection('execution')">🧩 Execution</a>
+    <a href="#" onclick="showSection('distributors')">👥 Distributors</a>
   </nav>
 
   <main>
@@ -197,33 +197,13 @@
       </table>
     </section>
 
-    <!-- Marketing -->
-    <section id="marketing" class="section">
-      <h2>📣 Marketing Performance</h2>
-      <table>
-        <tr><th>Campaign</th><th>Region</th><th>QPS (Avg)</th><th>Scheme Running</th></tr>
-        <tr><td>Festive Combo Offer</td><td>Uttar Pradesh</td><td>95%</td><td>Buy 2 Get 1 Free</td></tr>
-        <tr><td>Summer Coolers</td><td>Lucknow</td><td>89%</td><td>Free Crates for 100+ Cases</td></tr>
-        <tr><td>College Activation</td><td>Varanasi</td><td>92%</td><td>Campus Sampling Drive</td></tr>
-      </table>
-      <canvas id="marketingChart" height="100"></canvas>
-    </section>
-
-    <!-- Execution -->
-    <section id="execution" class="section">
-      <h2>🧩 Execution Overview</h2>
-      <h3 style="margin-top:10px;">👥 Distributors</h3>
+    <!-- Distributors -->
+    <section id="distributors" class="section">
+      <h2>👥 Distributors Data</h2>
       <table>
         <tr><th>Name</th><th>City</th><th>Contact</th><th>Sales (₹)</th></tr>
         <tr><td>Krishna Traders</td><td>Lucknow</td><td>0522-456789</td><td>₹12,45,000</td></tr>
         <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
-      </table>
-
-      <h3 style="margin-top:20px;">📍 RED (Retail Execution Data)</h3>
-      <table>
-        <tr><th>Outlet</th><th>City</th><th>Visi Cooler Status</th><th>Last Audit</th></tr>
-        <tr><td>Super Mart</td><td>Lucknow</td><td>Working</td><td>5 Oct 2025</td></tr>
-        <tr><td>Cool Point</td><td>Faizabad</td><td>Needs Repair</td><td>3 Oct 2025</td></tr>
       </table>
     </section>
   </main>
@@ -243,9 +223,11 @@
       window.location.href = 'index.html';
     }
 
+    const salesCtx = document.getElementById('salesChart');
+    const prodCtx = document.getElementById('prodChart');
     const labels = ["Apr","May","Jun","Jul","Aug","Sep"];
 
-    new Chart(document.getElementById('salesChart'), {
+    new Chart(salesCtx, {
       type: 'bar',
       data: {
         labels,
@@ -257,7 +239,7 @@
       options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
     });
 
-    new Chart(document.getElementById('prodChart'), {
+    new Chart(prodCtx, {
       type: 'line',
       data: {
         labels,

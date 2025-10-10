@@ -40,14 +40,12 @@
       vertical-align: middle;
     }
 
-    /* Make SLMG slightly larger */
     .header-logos img:first-child {
-      height: 70px;        /* increased */
+      height: 70px;
       transform: scale(1.25);
       transform-origin: center;
     }
 
-    /* Make Coca-Cola slightly smaller */
     .header-logos img:last-child {
       height: 60px;
       opacity: 0.96;
@@ -135,7 +133,8 @@
     <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
     <a href="#" onclick="showSection('transport')">🚚 Transport</a>
     <a href="#" onclick="showSection('stock')">📦 Stock</a>
-    <a href="#" onclick="showSection('distributors')">👥 Distributors</a>
+    <a href="#" onclick="showSection('marketing')">📢 Marketing</a>
+    <a href="#" onclick="showSection('execution')">⚙️ Execution</a>
   </nav>
 
   <main>
@@ -153,7 +152,6 @@
         <tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles Produced</th></tr>
         <tr><td>1 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>1,45,000</td></tr>
         <tr><td>1 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>1,32,000</td></tr>
-        <tr><td>2 Oct 2025</td><td>Lucknow</td><td>Night</td><td>1,25,000</td></tr>
       </table>
     </section>
 
@@ -163,7 +161,6 @@
       <table>
         <tr><th>Date</th><th>Distributor</th><th>Region</th><th>Sales (₹)</th></tr>
         <tr><td>1 Oct 2025</td><td>Krishna Traders</td><td>Lucknow</td><td>₹12,45,000</td></tr>
-        <tr><td>1 Oct 2025</td><td>Rama Beverages</td><td>Faizabad</td><td>₹9,80,000</td></tr>
       </table>
     </section>
 
@@ -173,7 +170,6 @@
       <table>
         <tr><th>Date</th><th>Retailer</th><th>City</th><th>Units Sold</th></tr>
         <tr><td>1 Oct 2025</td><td>Super Mart</td><td>Lucknow</td><td>2,150</td></tr>
-        <tr><td>1 Oct 2025</td><td>Shop 24x7</td><td>Faizabad</td><td>1,780</td></tr>
       </table>
     </section>
 
@@ -183,7 +179,6 @@
       <table>
         <tr><th>Date</th><th>Truck No</th><th>Route</th><th>Status</th></tr>
         <tr><td>1 Oct 2025</td><td>UP32 AJ 9987</td><td>Lucknow – Ayodhya</td><td>Delivered</td></tr>
-        <tr><td>2 Oct 2025</td><td>UP32 AC 5567</td><td>Faizabad – Sultanpur</td><td>In Transit</td></tr>
       </table>
     </section>
 
@@ -197,14 +192,26 @@
       </table>
     </section>
 
-    <!-- Distributors -->
-    <section id="distributors" class="section">
-      <h2>👥 Distributors Data</h2>
+    <!-- Marketing -->
+    <section id="marketing" class="section">
+      <h2>📢 Marketing Overview</h2>
       <table>
-        <tr><th>Name</th><th>City</th><th>Contact</th><th>Sales (₹)</th></tr>
-        <tr><td>Krishna Traders</td><td>Lucknow</td><td>0522-456789</td><td>₹12,45,000</td></tr>
-        <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
+        <tr><th>Scheme Name</th><th>Region</th><th>QPS Target</th><th>Spend (₹)</th></tr>
+        <tr><td>Festive Combo Offer</td><td>Lucknow</td><td>1200</td><td>₹3,50,000</td></tr>
+        <tr><td>Diwali Visibility Push</td><td>Ayodhya</td><td>950</td><td>₹2,80,000</td></tr>
       </table>
+      <canvas id="marketingChart" height="100"></canvas>
+    </section>
+
+    <!-- Execution -->
+    <section id="execution" class="section">
+      <h2>⚙️ Execution & RED Visibility</h2>
+      <table>
+        <tr><th>Distributor</th><th>City</th><th>Visi Coolers Audited</th><th>RED Compliance (%)</th></tr>
+        <tr><td>Krishna Traders</td><td>Lucknow</td><td>120</td><td>92%</td></tr>
+        <tr><td>Rama Beverages</td><td>Faizabad</td><td>95</td><td>87%</td></tr>
+      </table>
+      <canvas id="redChart" height="100"></canvas>
     </section>
   </main>
 
@@ -223,32 +230,39 @@
       window.location.href = 'index.html';
     }
 
-    const salesCtx = document.getElementById('salesChart');
-    const prodCtx = document.getElementById('prodChart');
     const labels = ["Apr","May","Jun","Jul","Aug","Sep"];
-
-    new Chart(salesCtx, {
+    new Chart(document.getElementById('salesChart'), {
       type: 'bar',
-      data: {
-        labels,
-        datasets: [
-          { label: 'Primary Sales', data: [480,520,450,610,700,482], backgroundColor: '#F40009' },
-          { label: 'Secondary Sales', data: [420,490,470,580,640,534], backgroundColor: '#0066B3' }
-        ]
-      },
+      data: { labels, datasets: [
+        { label: 'Primary Sales', data: [480,520,450,610,700,482], backgroundColor: '#F40009' },
+        { label: 'Secondary Sales', data: [420,490,470,580,640,534], backgroundColor: '#0066B3' }
+      ]},
       options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
     });
 
-    new Chart(prodCtx, {
+    new Chart(document.getElementById('prodChart'), {
       type: 'line',
+      data: { labels, datasets: [
+        { label: 'Production Volume', data: [120,125,118,130,140,135], borderColor: '#16a34a', fill:true },
+        { label: 'Sales Volume', data: [110,118,115,122,134,128], borderColor: '#F40009', fill:true }
+      ]},
+      options: { plugins: { legend: { position: 'top' } } }
+    });
+
+    new Chart(document.getElementById('marketingChart'), {
+      type: 'pie',
       data: {
-        labels,
-        datasets: [
-          { label: 'Production Volume', data: [120,125,118,130,140,135], borderColor: '#16a34a', backgroundColor: 'rgba(22,163,74,0.12)', fill:true },
-          { label: 'Sales Volume', data: [110,118,115,122,134,128], borderColor: '#F40009', backgroundColor: 'rgba(244,0,9,0.12)', fill:true }
-        ]
-      },
-      options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+        labels: ['Festive Combo', 'Diwali Push'],
+        datasets: [{ data: [350000, 280000], backgroundColor: ['#F40009', '#0066B3'] }]
+      }
+    });
+
+    new Chart(document.getElementById('redChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Krishna Traders', 'Rama Beverages'],
+        datasets: [{ label: 'RED Compliance (%)', data: [92, 87], backgroundColor: ['#F40009','#0066B3'] }]
+      }
     });
   </script>
 </body>

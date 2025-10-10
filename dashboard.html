@@ -40,14 +40,12 @@
       vertical-align: middle;
     }
 
-    /* Make SLMG slightly larger */
     .header-logos img:first-child {
-      height: 70px;        /* increased */
+      height: 70px;
       transform: scale(1.25);
       transform-origin: center;
     }
 
-    /* Make Coca-Cola slightly smaller */
     .header-logos img:last-child {
       height: 60px;
       opacity: 0.96;
@@ -92,6 +90,7 @@
       box-shadow: var(--shadow);
       border-radius: 10px;
       overflow: hidden;
+      margin-bottom: 20px;
     }
     th, td {
       padding: 10px 14px;
@@ -129,13 +128,15 @@
   </header>
 
   <nav>
-    <a href="#" class="active" onclick="showSection('dashboard')">🏠 Dashboard</a>
-    <a href="#" onclick="showSection('production')">🏭 Production</a>
-    <a href="#" onclick="showSection('primary')">🛒 Primary Sales</a>
-    <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
-    <a href="#" onclick="showSection('transport')">🚚 Transport</a>
-    <a href="#" onclick="showSection('stock')">📦 Stock</a>
-    <a href="#" onclick="showSection('distributors')">👥 Distributors</a>
+    <a href="#" class="active" onclick="showSection('dashboard', event)">🏠 Dashboard</a>
+    <a href="#" onclick="showSection('production', event)">🏭 Production</a>
+    <a href="#" onclick="showSection('primary', event)">🛒 Primary Sales</a>
+    <a href="#" onclick="showSection('secondary', event)">🏬 Secondary Sales</a>
+    <a href="#" onclick="showSection('transport', event)">🚚 Transport</a>
+    <a href="#" onclick="showSection('stock', event)">📦 Stock</a>
+    <a href="#" onclick="showSection('distributors', event)">👥 Distributors</a>
+    <a href="#" onclick="showSection('marketing', event)">📢 Marketing</a>
+    <a href="#" onclick="showSection('execution', event)">⚙️ Execution</a>
   </nav>
 
   <main>
@@ -206,12 +207,34 @@
         <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
       </table>
     </section>
+
+    <!-- Marketing -->
+    <section id="marketing" class="section">
+      <h2>📢 Marketing Data</h2>
+      <table>
+        <tr><th>Month</th><th>QPS</th><th>Scheme</th><th>Spend (₹)</th></tr>
+        <tr><td>Apr 2025</td><td>2,500</td><td>Buy 2 Get 1</td><td>₹1,20,000</td></tr>
+        <tr><td>May 2025</td><td>2,800</td><td>Flat 10% Off</td><td>₹1,35,000</td></tr>
+        <tr><td>Jun 2025</td><td>2,600</td><td>Combo Pack</td><td>₹1,15,000</td></tr>
+      </table>
+    </section>
+
+    <!-- Execution -->
+    <section id="execution" class="section">
+      <h2>⚙️ Execution Data</h2>
+      <table>
+        <tr><th>Distributor</th><th>RED (Cooler Placement)</th><th>Notes</th></tr>
+        <tr><td>Krishna Traders</td><td>90%</td><td>All SKUs placed</td></tr>
+        <tr><td>Rama Beverages</td><td>75%</td><td>Needs restock</td></tr>
+      </table>
+      <canvas id="executionChart" height="100"></canvas>
+    </section>
   </main>
 
   <div class="footer-note">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>© SLMG Beverages LTD. — Prototype Portal</div>
 
   <script>
-    function showSection(id) {
+    function showSection(id, event) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
@@ -223,10 +246,9 @@
       window.location.href = 'index.html';
     }
 
-    const salesCtx = document.getElementById('salesChart');
-    const prodCtx = document.getElementById('prodChart');
     const labels = ["Apr","May","Jun","Jul","Aug","Sep"];
 
+    const salesCtx = document.getElementById('salesChart');
     new Chart(salesCtx, {
       type: 'bar',
       data: {
@@ -239,6 +261,7 @@
       options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
     });
 
+    const prodCtx = document.getElementById('prodChart');
     new Chart(prodCtx, {
       type: 'line',
       data: {
@@ -249,6 +272,16 @@
         ]
       },
       options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    const execCtx = document.getElementById('executionChart');
+    new Chart(execCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Krishna Traders', 'Rama Beverages'],
+        datasets: [{ label: 'RED (%)', data: [90, 75], backgroundColor: '#F40009' }]
+      },
+      options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 100 } } }
     });
   </script>
 </body>

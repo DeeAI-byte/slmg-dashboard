@@ -7,500 +7,273 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root{
-      --coke-red:#F40009;
-      --slmg-blue:#0066B3;
-      --bg:#f4f6f9;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --shadow: 0 10px 30px rgba(16,24,40,0.06);
-      --radius:12px;
+    :root {
+      --coke-red: #F40009;
+      --slmg-blue: #0066B3;
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --shadow: 0 8px 24px rgba(16,24,40,0.06);
     }
-    *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-    body{background:var(--bg);margin:0;color:#111;min-height:100vh;}
-    /* Header */
-    header{
-      background:var(--card);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 28px;
-      box-shadow:var(--shadow);
-      position:sticky;
-      top:0;
-      z-index:20;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; }
+    body { background: var(--bg); color: #111; min-height: 100vh; }
+
+    header {
+      background: var(--card);
+      box-shadow: var(--shadow);
+      padding: 10px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:18px;
+
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
-    .brand img { display:block; height:56px; object-fit:contain; }
-    .brand .slmg { height:64px; transform:scale(1.15); transform-origin:center; }
-    .logout{ cursor:pointer; color:#333; font-weight:600; display:flex; align-items:center; gap:8px; }
-    /* Nav */
-    nav{
-      display:flex;
-      gap:16px;
-      padding:10px 22px;
-      background:#fff;
-      border-bottom:1px solid #eee;
-      flex-wrap:wrap;
-      align-items:center;
+
+    .header-logos img {
+      display: block;
+      object-fit: contain;
+      vertical-align: middle;
     }
-    nav a{
-      text-decoration:none;
-      color:#333;
-      padding:8px 10px;
-      border-radius:8px;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      font-weight:600;
+
+    .header-logos img:first-child {
+      height: 70px;
+      transform: scale(1.25);
+      transform-origin: center;
     }
-    nav a.active{ color:var(--coke-red); background:rgba(244,0,9,0.04); }
-    nav a:hover{ color:var(--slmg-blue); }
-    /* Layout */
-    .container{ max-width:1200px; margin:22px auto; padding:0 18px; }
-    .page-title{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-    .page-title h1{ font-size:24px; margin:0; }
-    /* Alerts row */
-    .alerts{ display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap; }
-    .card{
-      background:var(--card);
-      box-shadow:var(--shadow);
-      border-radius:var(--radius);
-      padding:14px;
-      flex:1 1 220px;
-      min-width:220px;
+
+    .header-logos img:last-child {
+      height: 60px;
+      opacity: 0.96;
     }
-    .card .k{ font-size:13px; color:var(--muted); margin-bottom:6px; }
-    .card .v{ font-size:20px; font-weight:700; }
-    .card .trend{ font-size:12px; color:var(--muted); margin-top:8px; }
-    /* Charts row */
-    .charts{ display:flex; gap:18px; margin-bottom:20px; flex-wrap:wrap; }
-    .chart-card{ background:var(--card); padding:18px; border-radius:var(--radius); box-shadow:var(--shadow); flex:1 1 540px; min-width:280px; }
-    canvas{ width:100% !important; height:320px !important; border-radius:8px; }
-    /* Tables */
-    table{ width:100%; border-collapse:collapse; background:var(--card); box-shadow:var(--shadow); border-radius:10px; overflow:hidden; margin-bottom:18px; }
-    th,td{ padding:10px 12px; text-align:left; border-bottom:1px solid #f1f1f1; font-size:14px; }
-    th{ background:#fafafa; font-weight:700; }
-    tr:hover td{ background:#fbfdff; }
-    /* Two-column area for tables */
-    .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; margin-bottom:18px; }
-    @media (max-width:980px){ .two-col{ grid-template-columns: 1fr; } .charts{ flex-direction:column; } canvas{ height:260px !important; } .card{ min-width:unset; } }
-    .footer-note{ text-align:center; font-size:13px; color:var(--muted); margin:26px 0 80px; }
-    /* small pill */
-    .pill{ display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; }
-    .pill.red{ background:rgba(244,0,9,0.08); color:var(--coke-red); }
-    .pill.blue{ background:rgba(0,102,179,0.06); color:var(--slmg-blue); }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 22px;
+      border-top: 1px solid #eee;
+      background: #fff;
+      font-weight: 600;
+      padding: 12px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.3s;
+    }
+    nav a.active { color: var(--coke-red); }
+    nav a:hover { color: var(--slmg-blue); }
+
+    main { padding: 30px; max-width: 1200px; margin: 0 auto; }
+
+    .section { display: none; animation: fadeIn 0.3s ease-in-out; }
+    .section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+    th { background: #fafafa; font-weight: 600; }
+    tr:hover { background: #f9fafb; }
+    canvas { margin-top: 20px; background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 20px; }
+
+    .footer-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 24px 0;
+    }
+    .logout {
+      margin-left: auto;
+      cursor: pointer;
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">
-      <img src="SLMG logo.png" alt="SLMG" class="slmg">
+    <div class="header-logos">
+      <img src="SLMG logo.png" alt="SLMG Beverages">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/800px-Coca-Cola_logo.svg.png" alt="Coca-Cola">
     </div>
-    <div class="logout" onclick="logout()">🔁 Logout</div>
+    <div class="logout" onclick="logout()">↩️ Logout</div>
   </header>
 
   <nav>
-    <a href="#" class="active" data-target="dashboard" onclick="showSection(event)">🏠 Dashboard</a>
-    <a href="#" data-target="production" onclick="showSection(event)">🏭 Production</a>
-    <a href="#" data-target="primary" onclick="showSection(event)">🛒 Primary Sales</a>
-    <a href="#" data-target="secondary" onclick="showSection(event)">🏬 Secondary Sales</a>
-    <a href="#" data-target="transport" onclick="showSection(event)">🚚 Transport</a>
-    <a href="#" data-target="stock" onclick="showSection(event)">📦 Stock</a>
-    <a href="#" data-target="distributors" onclick="showSection(event)">👥 Distributors</a>
-    <a href="#" data-target="marketing" onclick="showSection(event)">📢 Marketing</a>
-    <a href="#" data-target="execution" onclick="showSection(event)">⚙️ Execution</a>
+    <a href="#" class="active" onclick="showSection('dashboard')">🏠 Dashboard</a>
+    <a href="#" onclick="showSection('production')">🏭 Production</a>
+    <a href="#" onclick="showSection('primary')">🛒 Primary Sales</a>
+    <a href="#" onclick="showSection('secondary')">🏬 Secondary Sales</a>
+    <a href="#" onclick="showSection('transport')">🚚 Transport</a>
+    <a href="#" onclick="showSection('stock')">📦 Stock</a>
+    <a href="#" onclick="showSection('marketing')">📢 Marketing</a>
+    <a href="#" onclick="showSection('execution')">⚙️ Execution</a>
   </nav>
 
-  <div class="container">
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="page">
-      <div class="page-title"><h1>📊 Overview Dashboard</h1></div>
-
-      <!-- Alerts -->
-      <div class="alerts">
-        <div class="card">
-          <div class="k">Primary Sales (MTD)</div>
-          <div class="v">₹ 42,30,000</div>
-          <div class="trend">↑ 8.4% vs last month</div>
-        </div>
-        <div class="card">
-          <div class="k">Production (MTD)</div>
-          <div class="v">8,95,000 bottles</div>
-          <div class="trend">↔ Stable</div>
-        </div>
-        <div class="card">
-          <div class="k">Stock (Total)</div>
-          <div class="v">1,62,500 units</div>
-          <div class="trend">↓ 4.2% reserve</div>
-        </div>
-        <div class="card">
-          <div class="k">RED (Avg)</div>
-          <div class="v">82%</div>
-          <div class="trend">Goal: 90%</div>
-        </div>
-      </div>
-
-      <!-- Charts: Sales vs Production & KPI smalls -->
-      <div class="charts">
-        <div class="chart-card">
-          <h3 style="margin:0 0 8px;">Sales vs Production</h3>
-          <canvas id="salesVsProdChart"></canvas>
-        </div>
-
-        <div class="chart-card">
-          <h3 style="margin:0 0 8px;">Primary vs Secondary (Monthly)</h3>
-          <canvas id="primarySecondaryChart"></canvas>
-        </div>
-      </div>
-
-      <!-- KPI smalls -->
-      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
-        <div class="card" style="flex:1 1 220px;min-width:220px;">
-          <div class="k">Avg Price per Unit</div>
-          <div class="v">₹ 36.8</div>
-          <div class="trend">Stable</div>
-        </div>
-        <div class="card" style="flex:1 1 220px;min-width:220px;">
-          <div class="k">Active Distributors</div>
-          <div class="v">124</div>
-          <div class="trend">+5 QoQ</div>
-        </div>
-        <div class="card" style="flex:1 1 220px;min-width:220px;">
-          <div class="k">Marketing Spend (YTD)</div>
-          <div class="v">₹ 12,40,000</div>
-          <div class="trend">On Track</div>
-        </div>
-      </div>
-
-      <!-- Tables row -->
-      <div class="two-col">
-        <div>
-          <h3>🏭 Recent Production</h3>
-          <table>
-            <thead><tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles</th></tr></thead>
-            <tbody>
-              <tr><td>01 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>145,000</td></tr>
-              <tr><td>01 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>132,000</td></tr>
-              <tr><td>02 Oct 2025</td><td>Lucknow</td><td>Night</td><td>125,000</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div>
-          <h3>🛒 Top Distributor Sales (MTD)</h3>
-          <table>
-            <thead><tr><th>Distributor</th><th>City</th><th>Sales (₹)</th></tr></thead>
-            <tbody>
-              <tr><td>Krishna Traders</td><td>Lucknow</td><td>₹ 12,45,000</td></tr>
-              <tr><td>Rama Beverages</td><td>Faizabad</td><td>₹ 9,80,000</td></tr>
-              <tr><td>City Retailers</td><td>Gorakhpur</td><td>₹ 6,25,000</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- secondary & transport -->
-      <div class="two-col">
-        <div>
-          <h3>🏬 Secondary Sales Snapshot</h3>
-          <table>
-            <thead><tr><th>Date</th><th>Retailer</th><th>City</th><th>Units</th></tr></thead>
-            <tbody>
-              <tr><td>01 Oct 2025</td><td>Super Mart</td><td>Lucknow</td><td>2,150</td></tr>
-              <tr><td>01 Oct 2025</td><td>Shop 24x7</td><td>Faizabad</td><td>1,780</td></tr>
-              <tr><td>02 Oct 2025</td><td>QuickStop</td><td>Sultanpur</td><td>1,210</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <h3>🚚 Transport Status</h3>
-          <table>
-            <thead><tr><th>Date</th><th>Truck No</th><th>Route</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>01 Oct 2025</td><td>UP32 AJ 9987</td><td>Lucknow – Ayodhya</td><td>Delivered</td></tr>
-              <tr><td>02 Oct 2025</td><td>UP32 AC 5567</td><td>Faizabad – Sultanpur</td><td>In Transit</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <main>
+    <section id="dashboard" class="section active">
+      <h2>📊 Overview Dashboard</h2>
+      <canvas id="salesChart" height="100"></canvas>
+      <canvas id="prodChart" height="100"></canvas>
     </section>
 
-    <!-- PRODUCTION -->
-    <section id="production" class="page" style="display:none">
-      <div class="page-title"><h1>🏭 Production</h1></div>
-      <div class="alerts">
-        <div class="card"><div class="k">Today's Output</div><div class="v">435,000 bottles</div><div class="trend">+3% vs target</div></div>
-        <div class="card"><div class="k">Downtime</div><div class="v">1.2 hrs</div><div class="trend">Reduced</div></div>
-        <div class="card"><div class="k">Yield</div><div class="v">98.2%</div><div class="trend">Good</div></div>
-      </div>
-
-      <div class="chart-card" style="margin-bottom:18px;">
-        <h3 style="margin:0 0 8px;">Production Trend</h3>
-        <canvas id="productionChart"></canvas>
-      </div>
-
-      <h3>Production Records</h3>
+    <section id="production" class="section">
+      <h2>🏭 Production Data</h2>
       <table>
-        <thead><tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles Produced</th></tr></thead>
-        <tbody>
-          <tr><td>1 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>145,000</td></tr>
-          <tr><td>1 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>132,000</td></tr>
-          <tr><td>2 Oct 2025</td><td>Lucknow</td><td>Night</td><td>125,000</td></tr>
-        </tbody>
+        <tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles Produced</th></tr>
+        <tr><td>1 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>1,45,000</td></tr>
+        <tr><td>1 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>1,32,000</td></tr>
       </table>
     </section>
 
-    <!-- PRIMARY SALES -->
-    <section id="primary" class="page" style="display:none">
-      <div class="page-title"><h1>🛒 Primary Sales</h1></div>
-
-      <div class="alerts">
-        <div class="card"><div class="k">MTD Sales</div><div class="v">₹ 42,30,000</div><div class="trend">↑8.4%</div></div>
-        <div class="card"><div class="k">Avg Order Value</div><div class="v">₹ 9,450</div><div class="trend">Stable</div></div>
-      </div>
-
-      <h3>Primary Sales Table</h3>
+    <section id="primary" class="section">
+      <h2>🛒 Primary Sales</h2>
       <table>
-        <thead><tr><th>Date</th><th>Distributor</th><th>Region</th><th>Sales (₹)</th></tr></thead>
-        <tbody>
-          <tr><td>1 Oct 2025</td><td>Krishna Traders</td><td>Lucknow</td><td>₹12,45,000</td></tr>
-          <tr><td>1 Oct 2025</td><td>Rama Beverages</td><td>Faizabad</td><td>₹9,80,000</td></tr>
-          <tr><td>2 Oct 2025</td><td>City Retailers</td><td>Gorakhpur</td><td>₹6,25,000</td></tr>
-        </tbody>
+        <tr><th>Date</th><th>Distributor</th><th>Region</th><th>Sales (₹)</th></tr>
+        <tr><td>1 Oct 2025</td><td>Krishna Traders</td><td>Lucknow</td><td>₹12,45,000</td></tr>
+        <tr><td>1 Oct 2025</td><td>Rama Beverages</td><td>Faizabad</td><td>₹9,80,000</td></tr>
       </table>
     </section>
 
-    <!-- SECONDARY SALES -->
-    <section id="secondary" class="page" style="display:none">
-      <div class="page-title"><h1>🏬 Secondary Sales</h1></div>
-      <div class="alerts">
-        <div class="card"><div class="k">Units Sold (MTD)</div><div class="v">78,200</div><div class="trend">↑2.1%</div></div>
-        <div class="card"><div class="k">Top SKU</div><div class="v">Coca-Cola 500ml</div><div class="trend">Best Seller</div></div>
-      </div>
-
-      <h3>Secondary Sales</h3>
+    <section id="secondary" class="section">
+      <h2>🏬 Secondary Sales</h2>
       <table>
-        <thead><tr><th>Date</th><th>Retailer</th><th>City</th><th>Units Sold</th></tr></thead>
-        <tbody>
-          <tr><td>1 Oct 2025</td><td>Super Mart</td><td>Lucknow</td><td>2,150</td></tr>
-          <tr><td>1 Oct 2025</td><td>Shop 24x7</td><td>Faizabad</td><td>1,780</td></tr>
-          <tr><td>2 Oct 2025</td><td>QuickStop</td><td>Sultanpur</td><td>1,210</td></tr>
-        </tbody>
+        <tr><th>Date</th><th>Retailer</th><th>City</th><th>Units Sold</th></tr>
+        <tr><td>1 Oct 2025</td><td>Super Mart</td><td>Lucknow</td><td>2,150</td></tr>
+        <tr><td>1 Oct 2025</td><td>Shop 24x7</td><td>Faizabad</td><td>1,780</td></tr>
       </table>
     </section>
 
-    <!-- TRANSPORT -->
-    <section id="transport" class="page" style="display:none">
-      <div class="page-title"><h1>🚚 Transport</h1></div>
-      <div class="alerts">
-        <div class="card"><div class="k">On Time Deliveries</div><div class="v">94%</div><div class="trend">Good</div></div>
-        <div class="card"><div class="k">In Transit</div><div class="v">12 Trucks</div><div class="trend">Monitor</div></div>
-      </div>
-
-      <h3>Transport</h3>
+    <section id="transport" class="section">
+      <h2>🚚 Transport Summary</h2>
       <table>
-        <thead><tr><th>Date</th><th>Truck No</th><th>Route</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>1 Oct 2025</td><td>UP32 AJ 9987</td><td>Lucknow – Ayodhya</td><td>Delivered</td></tr>
-          <tr><td>2 Oct 2025</td><td>UP32 AC 5567</td><td>Faizabad – Sultanpur</td><td>In Transit</td></tr>
-        </tbody>
+        <tr><th>Date</th><th>Truck No</th><th>Route</th><th>Status</th></tr>
+        <tr><td>1 Oct 2025</td><td>UP32 AJ 9987</td><td>Lucknow – Ayodhya</td><td>Delivered</td></tr>
       </table>
     </section>
 
-    <!-- STOCK -->
-    <section id="stock" class="page" style="display:none">
-      <div class="page-title"><h1>📦 Stock</h1></div>
-      <div class="alerts">
-        <div class="card"><div class="k">Total SKUs</div><div class="v">48</div><div class="trend">Stable</div></div>
-        <div class="card"><div class="k">Stock Value</div><div class="v">₹ 23,50,000</div><div class="trend">Optimized</div></div>
-      </div>
-
-      <h3>Warehouse Stock</h3>
+    <section id="stock" class="section">
+      <h2>📦 Stock Levels</h2>
       <table>
-        <thead><tr><th>SKU</th><th>Warehouse</th><th>Qty Available</th></tr></thead>
-        <tbody>
-          <tr><td>Coca-Cola 500ml</td><td>Lucknow</td><td>52,000</td></tr>
-          <tr><td>Sprite 1L</td><td>Faizabad</td><td>35,500</td></tr>
-        </tbody>
+        <tr><th>SKU</th><th>Warehouse</th><th>Qty Available</th></tr>
+        <tr><td>Coca-Cola 500ml</td><td>Lucknow</td><td>52,000</td></tr>
+        <tr><td>Sprite 1L</td><td>Faizabad</td><td>35,500</td></tr>
       </table>
     </section>
 
-    <!-- DISTRIBUTORS -->
-    <section id="distributors" class="page" style="display:none">
-      <div class="page-title"><h1>👥 Distributors</h1></div>
-      <div class="alerts">
-        <div class="card"><div class="k">Total Distributors</div><div class="v">124</div><div class="trend">+5 QoQ</div></div>
-        <div class="card"><div class="k">Active Last 30d</div><div class="v">98</div><div class="trend">Healthy</div></div>
-      </div>
-
-      <h3>Distributor List</h3>
+    <section id="marketing" class="section">
+      <h2>📢 Marketing Overview</h2>
       <table>
-        <thead><tr><th>Name</th><th>City</th><th>Contact</th><th>Sales (₹)</th></tr></thead>
-        <tbody>
-          <tr><td>Krishna Traders</td><td>Lucknow</td><td>0522-456789</td><td>₹12,45,000</td></tr>
-          <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
-          <tr><td>City Retailers</td><td>Gorakhpur</td><td>0528-334455</td><td>₹6,25,000</td></tr>
-        </tbody>
+        <tr><th>Quarter</th><th>QPS (Visibility)</th><th>Scheme</th><th>Spend (₹)</th></tr>
+        <tr><td>Q1</td><td>92%</td><td>Summer Rush</td><td>₹8,20,000</td></tr>
+        <tr><td>Q2</td><td>89%</td><td>Festive Boost</td><td>₹9,10,000</td></tr>
       </table>
     </section>
 
-    <!-- MARKETING -->
-    <section id="marketing" class="page" style="display:none">
-      <div class="page-title"><h1>📢 Marketing</h1></div>
+    <!-- Execution -->
+    <section id="execution" class="section">
+      <h2>⚙️ Execution Summary</h2>
 
-      <div class="alerts">
-        <div class="card"><div class="k">QPS (MTD)</div><div class="v">2,800</div><div class="trend">↑ 6%</div></div>
-        <div class="card"><div class="k">Schemes Active</div><div class="v">3</div><div class="trend">Buy2Get1, Combo, Discount</div></div>
-        <div class="card"><div class="k">Spend (YTD)</div><div class="v">₹ 12,40,000</div><div class="trend">On Budget</div></div>
-      </div>
-
-      <div class="chart-card" style="margin-bottom:18px;">
-        <h3 style="margin:0 0 8px;">Marketing Spend Trend</h3>
-        <canvas id="marketingChart"></canvas>
-      </div>
-
-      <h3>Marketing Activity</h3>
+      <!-- Distributors Table -->
       <table>
-        <thead><tr><th>Month</th><th>QPS</th><th>Scheme</th><th>Spend (₹)</th></tr></thead>
-        <tbody>
-          <tr><td>Apr 2025</td><td>2,500</td><td>Buy 2 Get 1</td><td>₹1,20,000</td></tr>
-          <tr><td>May 2025</td><td>2,800</td><td>Flat 10% Off</td><td>₹1,35,000</td></tr>
-          <tr><td>Jun 2025</td><td>2,600</td><td>Combo Pack</td><td>₹1,15,000</td></tr>
-        </tbody>
+        <tr><th>Name</th><th>City</th><th>Contact</th><th>Sales (₹)</th></tr>
+        <tr><td>Krishna Traders</td><td>Lucknow</td><td>0522-456789</td><td>₹12,45,000</td></tr>
+        <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
       </table>
-    </section>
 
-    <!-- EXECUTION -->
-    <section id="execution" class="page" style="display:none">
-      <div class="page-title"><h1>⚙️ Execution</h1></div>
-
-      <div class="alerts">
-        <div class="card"><div class="k">Avg RED</div><div class="v">82%</div><div class="trend">Goal:90%</div></div>
-        <div class="card"><div class="k">SKU Placement</div><div class="v">87%</div><div class="trend">Good</div></div>
-        <div class="card"><div class="k">Active Distributors</div><div class="v">124</div><div class="trend">Monitoring</div></div>
-      </div>
-
-      <div class="chart-card" style="margin-bottom:18px;">
-        <h3 style="margin:0 0 8px;">RED % by Distributor</h3>
-        <canvas id="executionChart"></canvas>
-      </div>
-
-      <h3>Execution Details</h3>
+      <!-- RED Table -->
       <table>
-        <thead><tr><th>Distributor</th><th>RED (Cooler Placement)</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Krishna Traders</td><td>90%</td><td>All SKUs placed</td></tr>
-          <tr><td>Rama Beverages</td><td>75%</td><td>Needs restock</td></tr>
-          <tr><td>City Retailers</td><td>82%</td><td>Good positioning</td></tr>
-        </tbody>
+        <tr><th>Region</th><th>Cooler SKU</th><th>Placement %</th><th>Compliance</th></tr>
+        <tr><td>Lucknow</td><td>Coca-Cola 500ml</td><td>94%</td><td>✅</td></tr>
+        <tr><td>Faizabad</td><td>Sprite 1L</td><td>88%</td><td>⚠️</td></tr>
       </table>
-    </section>
 
-    <div class="footer-note">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>© SLMG Beverages LTD. — Prototype Portal</div>
-  </div>
+      <canvas id="executionChart" height="100"></canvas>
+    </section>
+  </main>
+
+  <div class="footer-note">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>© SLMG Beverages LTD. — Prototype Portal</div>
 
   <script>
-    // Navigation
-    function showSection(e){
-      e.preventDefault();
-      const target = e.currentTarget.getAttribute('data-target');
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-      e.currentTarget.classList.add('active');
-      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-      const section = document.getElementById(target);
-      if(section) section.style.display = 'block';
-      // resize charts if any visible (Chart.js responsive handles this)
-      setTimeout(()=>{ window.dispatchEvent(new Event('resize')); }, 120);
+      event.target.classList.add('active');
     }
-    function logout(){ localStorage.removeItem('slmg_authenticated'); window.location.href='index.html'; }
 
-    // Common labels
+    function logout() {
+      localStorage.removeItem('slmg_authenticated');
+      window.location.href = 'index.html';
+    }
+
+    const salesCtx = document.getElementById('salesChart');
+    const prodCtx = document.getElementById('prodChart');
+    const execCtx = document.getElementById('executionChart');
     const labels = ["Apr","May","Jun","Jul","Aug","Sep"];
 
-    // Sales vs Production combined chart
-    const ctxSP = document.getElementById('salesVsProdChart').getContext('2d');
-    const salesVsProdChart = new Chart(ctxSP, {
+    new Chart(salesCtx, {
       type: 'bar',
       data: {
         labels,
         datasets: [
-          { label: 'Primary Sales', data: [480,520,450,610,700,482], backgroundColor: 'rgba(244,0,9,0.95)', stack: 'sales' },
-          { label: 'Secondary Sales', data: [420,490,470,580,640,534], backgroundColor: 'rgba(0,102,179,0.95)', stack: 'sales' },
-          { type: 'line', label: 'Production (k bottles)', data: [120,125,118,130,140,135], borderColor: 'rgba(34,197,94,0.9)', backgroundColor: 'rgba(34,197,94,0.12)', yAxisID: 'y1', tension:0.25 }
+          { label: 'Primary Sales', data: [480,520,450,610,700,482], backgroundColor: '#F40009' },
+          { label: 'Secondary Sales', data: [420,490,470,580,640,534], backgroundColor: '#0066B3' }
         ]
       },
-      options: {
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{ legend:{ position:'top' } },
-        scales:{
-          y:{ beginAtZero:true, title:{ display:true, text:'Sales (₹ thousands)' } },
-          y1:{ position:'right', grid:{ display:false }, beginAtZero:true, title:{ display:true, text:'Production (k bottles)' }, ticks:{ color:'#0b0' } }
-        }
-      }
+      options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
     });
 
-    // Primary vs Secondary chart
-    const ctxPS = document.getElementById('primarySecondaryChart').getContext('2d');
-    const primarySecondaryChart = new Chart(ctxPS, {
-      type:'bar',
-      data:{
+    new Chart(prodCtx, {
+      type: 'line',
+      data: {
         labels,
-        datasets:[
-          { label:'Primary Sales', data:[480,520,450,610,700,482], backgroundColor: 'rgba(244,0,9,0.95)' },
-          { label:'Secondary Sales', data:[420,490,470,580,640,534], backgroundColor: 'rgba(0,102,179,0.95)' }
+        datasets: [
+          { label: 'Production Volume', data: [120,125,118,130,140,135], borderColor: '#16a34a', backgroundColor: 'rgba(22,163,74,0.12)', fill:true },
+          { label: 'Sales Volume', data: [110,118,115,122,134,128], borderColor: '#F40009', backgroundColor: 'rgba(244,0,9,0.12)', fill:true }
         ]
       },
-      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'top' } }, scales:{ y:{ beginAtZero:true } } }
+      options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
     });
 
-    // Production chart (line)
-    const ctxProd = document.getElementById('productionChart').getContext('2d');
-    const productionChart = new Chart(ctxProd, {
-      type:'line',
-      data:{
-        labels,
-        datasets:[
-          { label:'Production Volume (k)', data:[120,125,118,130,140,135], borderColor:'#16a34a', backgroundColor:'rgba(22,163,74,0.12)', fill:true, tension:0.25 },
-          { label:'Planned', data:[115,120,120,128,136,132], borderColor:'#94a3b8', backgroundColor:'rgba(148,163,184,0.06)', fill:false, borderDash:[6,4] }
+    new Chart(execCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Lucknow', 'Faizabad'],
+        datasets: [
+          { label: 'Active Coolers', data: [85, 72], backgroundColor: '#0066B3' },
+          { label: 'Compliance %', data: [92, 88], backgroundColor: '#F40009' }
         ]
       },
-      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'top' } }, scales:{ y:{ beginAtZero:true } } }
-    });
-
-    // Marketing chart (spend trend)
-    const ctxMarketing = document.getElementById('marketingChart').getContext('2d');
-    const marketingChart = new Chart(ctxMarketing, {
-      type:'line',
-      data:{
-        labels,
-        datasets:[
-          { label:'Marketing Spend (₹ thousands)', data:[120,135,115,140,160,125], borderColor: 'rgba(244,0,9,0.9)', backgroundColor:'rgba(244,0,9,0.08)', fill:true, tension:0.25 }
-        ]
-      },
-      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'top' } }, scales:{ y:{ beginAtZero:true } } }
-    });
-
-    // Execution chart (RED %)
-    const ctxExec = document.getElementById('executionChart').getContext('2d');
-    const executionChart = new Chart(ctxExec, {
-      type:'bar',
-      data:{
-        labels:['Krishna Traders','Rama Beverages','City Retailers'],
-        datasets:[ { label:'RED %', data:[90,75,82], backgroundColor:'rgba(244,0,9,0.95)' } ]
-      },
-      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, max:100 } } }
-    });
-
-    // Ensure charts resize on tab change (Chart.js is responsive, but refresh when visible)
-    document.querySelectorAll('nav a').forEach(a=>{
-      a.addEventListener('click', ()=> setTimeout(()=>{ [salesVsProdChart, primarySecondaryChart, productionChart, marketingChart, executionChart].forEach(c=>c.resize()); }, 200));
+      options: { plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
     });
   </script>
 </body>

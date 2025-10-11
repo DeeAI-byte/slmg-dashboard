@@ -90,7 +90,7 @@
       box-shadow: var(--shadow);
       border-radius: 10px;
       overflow: hidden;
-      margin-bottom: 20px;
+      margin-top: 20px;
     }
     th, td {
       padding: 10px 14px;
@@ -139,25 +139,21 @@
   </nav>
 
   <main>
-    <!-- Dashboard -->
     <section id="dashboard" class="section active">
       <h2>📊 Overview Dashboard</h2>
       <canvas id="salesChart" height="100"></canvas>
       <canvas id="prodChart" height="100"></canvas>
     </section>
 
-    <!-- Production -->
     <section id="production" class="section">
       <h2>🏭 Production Data</h2>
       <table>
         <tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles Produced</th></tr>
         <tr><td>1 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>1,45,000</td></tr>
         <tr><td>1 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>1,32,000</td></tr>
-        <tr><td>2 Oct 2025</td><td>Lucknow</td><td>Night</td><td>1,25,000</td></tr>
       </table>
     </section>
 
-    <!-- Primary Sales -->
     <section id="primary" class="section">
       <h2>🛒 Primary Sales</h2>
       <table>
@@ -167,7 +163,6 @@
       </table>
     </section>
 
-    <!-- Secondary Sales -->
     <section id="secondary" class="section">
       <h2>🏬 Secondary Sales</h2>
       <table>
@@ -177,17 +172,14 @@
       </table>
     </section>
 
-    <!-- Transport -->
     <section id="transport" class="section">
       <h2>🚚 Transport Summary</h2>
       <table>
         <tr><th>Date</th><th>Truck No</th><th>Route</th><th>Status</th></tr>
         <tr><td>1 Oct 2025</td><td>UP32 AJ 9987</td><td>Lucknow – Ayodhya</td><td>Delivered</td></tr>
-        <tr><td>2 Oct 2025</td><td>UP32 AC 5567</td><td>Faizabad – Sultanpur</td><td>In Transit</td></tr>
       </table>
     </section>
 
-    <!-- Stock -->
     <section id="stock" class="section">
       <h2>📦 Stock Levels</h2>
       <table>
@@ -197,7 +189,6 @@
       </table>
     </section>
 
-    <!-- Marketing -->
     <section id="marketing" class="section">
       <h2>📢 Marketing Overview</h2>
       <table>
@@ -211,23 +202,20 @@
     <section id="execution" class="section">
       <h2>⚙️ Execution Summary</h2>
 
-      <!-- Distributors (moved here) -->
-      <h3>👥 Distributors</h3>
+      <!-- Distributors Table -->
       <table>
         <tr><th>Name</th><th>City</th><th>Contact</th><th>Sales (₹)</th></tr>
         <tr><td>Krishna Traders</td><td>Lucknow</td><td>0522-456789</td><td>₹12,45,000</td></tr>
         <tr><td>Rama Beverages</td><td>Faizabad</td><td>0522-876543</td><td>₹9,80,000</td></tr>
       </table>
 
-      <!-- RED Placement -->
-      <h3>🧊 RED (Cooler SKU Placement)</h3>
+      <!-- RED Table -->
       <table>
-        <tr><th>Outlet</th><th>City</th><th>SKU Displayed</th><th>Cooler Status</th></tr>
-        <tr><td>Super Mart</td><td>Lucknow</td><td>Coca-Cola 500ml</td><td>Active</td></tr>
-        <tr><td>Shop 24x7</td><td>Faizabad</td><td>Sprite 1L</td><td>Active</td></tr>
+        <tr><th>Region</th><th>Cooler SKU</th><th>Placement %</th><th>Compliance</th></tr>
+        <tr><td>Lucknow</td><td>Coca-Cola 500ml</td><td>94%</td><td>✅</td></tr>
+        <tr><td>Faizabad</td><td>Sprite 1L</td><td>88%</td><td>⚠️</td></tr>
       </table>
 
-      <!-- Chart -->
       <canvas id="executionChart" height="100"></canvas>
     </section>
   </main>

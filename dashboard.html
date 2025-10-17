@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SLMG Sales Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{
-  --coke-red:#F40009;
-  --slmg-blue:#0066B3;
-  --bg:#f4f6f9;
-  --card:#ffffff;
-  --muted:#6b7280;
-  --shadow: 0 10px 30px rgba(16,24,40,0.06);
-  --radius:12px;
+  --coke-red:#F40009; --slmg-blue:#0066B3; --bg:#f4f6f9; --card:#ffffff;
+  --muted:#6b7280; --shadow:0 10px 30px rgba(16,24,40,0.06); --radius:12px;
 }
 *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
 body{background:var(--bg);margin:0;color:#111;min-height:100vh;}
@@ -56,130 +51,140 @@ tr:hover td{background:#fbfdff;}
   <div class="logout" onclick="logout()">🔁 Logout</div>
 </header>
 
-<!-- NAVIGATION -->
 <nav>
   <a href="#" class="active" data-target="dashboard" onclick="showSection(event)">🏠 Dashboard</a>
-  <a href="#" data-target="supplychain" onclick="showSection(event)">🏭 Supply Chain</a>
-  <a href="#" data-target="sales" onclick="showSection(event)">🛒 SALES</a>
-  <a href="#" data-target="marketing" onclick="showSection(event)">📢 Marketing</a>
-  <a href="#" data-target="execution" onclick="showSection(event)">⚙️ Execution</a>
-  <a href="#" data-target="rtm" onclick="showSection(event)">📊 RTM</a>
+  <a href="#" data-target="supplychain" onclick="showSection(event)">Supply Chain</a>
+  <a href="#" data-target="sales" onclick="showSection(event)">SALES</a>
+  <a href="#" data-target="marketing" onclick="showSection(event)">Marketing</a>
+  <a href="#" data-target="execution" onclick="showSection(event)">Execution</a>
+  <a href="#" data-target="rtm" onclick="showSection(event)">RTM</a>
 </nav>
 
 <div class="container">
 
-  <!-- 1. Dashboard -->
-  <section id="dashboard" class="page">
-    <div class="page-title"><h1>🏠 Dashboard – Overview metrics</h1></div>
-    <div class="alerts">
-      <div class="card"><div class="k">Primary Sales (MTD)</div><div class="v">₹50,00,000</div><div class="trend">↑10% vs last month</div></div>
-      <div class="card"><div class="k">Production (MTD)</div><div class="v">9,50,000 bottles</div><div class="trend">↔ Stable</div></div>
-      <div class="card"><div class="k">Stock (Total)</div><div class="v">1,70,000 units</div><div class="trend">↓3% reserve</div></div>
-      <div class="card"><div class="k">RED (Avg)</div><div class="v">85%</div><div class="trend">Goal: 90%</div></div>
+<!-- 1. Dashboard -->
+<section id="dashboard" class="page">
+  <div class="page-title"><h1>🏠 Dashboard – Overview metrics</h1></div>
+  <div class="alerts">
+    <div class="card"><div class="k">Primary Sales (MTD)</div><div class="v">₹50,00,000</div><div class="trend">↑10% vs last month</div></div>
+    <div class="card"><div class="k">Production (MTD)</div><div class="v">9,50,000 bottles</div><div class="trend">↔ Stable</div></div>
+    <div class="card"><div class="k">Stock (Total)</div><div class="v">1,70,000 units</div><div class="trend">↓3% reserve</div></div>
+    <div class="card"><div class="k">RED (Avg)</div><div class="v">85%</div><div class="trend">Goal: 90%</div></div>
+  </div>
+  <div class="charts">
+    <div class="chart-card">
+      <h3>Sales vs Production</h3>
+      <canvas id="salesVsProdChart"></canvas>
     </div>
-    <div class="charts">
-      <div class="chart-card"><h3>Sales vs Production</h3><canvas id="salesVsProdChart"></canvas></div>
-      <div class="chart-card"><h3>Primary vs Secondary (Monthly)</h3><canvas id="primarySecondaryChart"></canvas></div>
+    <div class="chart-card">
+      <h3>Primary vs Secondary (Monthly)</h3>
+      <canvas id="primarySecondaryChart"></canvas>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 2. Supply Chain -->
-  <section id="supplychain" class="page" style="display:none">
-    <div class="page-title"><h1>🏭 Supply Chain – Production, Transport & Stock</h1></div>
-
-    <!-- Production -->
-    <h3>🏭 Production</h3>
-    <div class="alerts">
-      <div class="card"><div class="k">Today's Output</div><div class="v">450,000 bottles</div><div class="trend">+4% vs target</div></div>
-      <div class="card"><div class="k">Downtime</div><div class="v">1.1 hrs</div><div class="trend">Reduced</div></div>
-      <div class="card"><div class="k">Yield</div><div class="v">98.5%</div><div class="trend">Good</div></div>
+<!-- 2. Supply Chain -->
+<section id="supplychain" class="page" style="display:none">
+  <div class="page-title"><h1>🏭 Supply Chain</h1></div>
+  <div class="alerts">
+    <div class="card"><div class="k">Today's Production</div><div class="v">440,000 bottles</div><div class="trend">+2% vs target</div></div>
+    <div class="card"><div class="k">Downtime</div><div class="v">1.1 hrs</div><div class="trend">Reduced</div></div>
+    <div class="card"><div class="k">Stock Value</div><div class="v">₹23,50,000</div><div class="trend">Optimized</div></div>
+  </div>
+  <div class="two-col">
+    <div>
+      <h3>🏭 Recent Production</h3>
+      <table>
+        <thead><tr><th>Date</th><th>Plant</th><th>Shift</th><th>Bottles</th></tr></thead>
+        <tbody>
+          <tr><td>01 Oct 2025</td><td>Lucknow</td><td>Morning</td><td>145,000</td></tr>
+          <tr><td>01 Oct 2025</td><td>Varanasi</td><td>Evening</td><td>132,000</td></tr>
+          <tr><td>02 Oct 2025</td><td>Lucknow</td><td>Night</td><td>125,000</td></tr>
+        </tbody>
+      </table>
     </div>
-    <div class="chart-card"><canvas id="productionChart"></canvas></div>
-
-    <!-- Transport -->
-    <h3>🚚 Transport</h3>
-    <div class="alerts">
-      <div class="card"><div class="k">On Time Deliveries</div><div class="v">95%</div><div class="trend">Good</div></div>
-      <div class="card"><div class="k">In Transit Trucks</div><div class="v">10</div><div class="trend">Monitor</div></div>
+    <div>
+      <h3>🚚 Transport Status</h3>
+      <table>
+        <thead><tr><th>Date</th><th>Truck No</th><th>Route</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>01 Oct 2025</td><td>UP32 AJ 9987</td><td>Lucknow – Ayodhya</td><td>Delivered</td></tr>
+          <tr><td>02 Oct 2025</td><td>UP32 AC 5567</td><td>Faizabad – Sultanpur</td><td>In Transit</td></tr>
+        </tbody>
+      </table>
     </div>
-    <div class="chart-card"><canvas id="transportChart"></canvas></div>
+  </div>
+  <h3>📦 Stock Overview</h3>
+  <table>
+    <thead><tr><th>SKU</th><th>Warehouse</th><th>Qty Available</th></tr></thead>
+    <tbody>
+      <tr><td>Coca-Cola 500ml</td><td>Lucknow</td><td>52,000</td></tr>
+      <tr><td>Sprite 1L</td><td>Faizabad</td><td>35,500</td></tr>
+    </tbody>
+  </table>
+</section>
 
-    <!-- Stock -->
-    <h3>📦 Stock</h3>
-    <div class="alerts">
-      <div class="card"><div class="k">Total SKUs</div><div class="v">48</div><div class="trend">Stable</div></div>
-      <div class="card"><div class="k">Stock Value</div><div class="v">₹23,50,000</div><div class="trend">Optimized</div></div>
+<!-- 3. SALES -->
+<section id="sales" class="page" style="display:none">
+  <div class="page-title"><h1>🛒 SALES</h1></div>
+  <div class="alerts">
+    <div class="card"><div class="k">Primary Sales (MTD)</div><div class="v">₹42,30,000</div><div class="trend">↑8.4%</div></div>
+    <div class="card"><div class="k">Secondary Sales (Units)</div><div class="v">78,200</div><div class="trend">↑2.1%</div></div>
+  </div>
+  <div class="charts">
+    <div class="chart-card">
+      <h3>Primary vs Secondary Sales Trend</h3>
+      <canvas id="primarySecondaryChartSales"></canvas>
     </div>
-    <div class="chart-card"><canvas id="stockChart"></canvas></div>
-  </section>
+  </div>
+</section>
 
-  <!-- 3. SALES -->
-  <section id="sales" class="page" style="display:none">
-    <div class="page-title"><h1>🛒 SALES – Primary & Secondary</h1></div>
+<!-- 4. Marketing -->
+<section id="marketing" class="page" style="display:none">
+  <div class="page-title"><h1>📢 Marketing</h1></div>
+  <div class="alerts">
+    <div class="card"><div class="k">QPS (MTD)</div><div class="v">2,800</div><div class="trend">↑6%</div></div>
+    <div class="card"><div class="k">Schemes Active</div><div class="v">3</div><div class="trend">Buy2Get1, Combo, Discount</div></div>
+  </div>
+  <div class="chart-card">
+    <h3>Marketing Spend Trend</h3>
+    <canvas id="marketingChart"></canvas>
+  </div>
+</section>
 
-    <!-- Primary Sales -->
-    <h3>Primary Sales – Distributor-level</h3>
-    <div class="alerts">
-      <div class="card"><div class="k">MTD Sales</div><div class="v">₹50,00,000</div><div class="trend">↑10%</div></div>
-      <div class="card"><div class="k">Avg Order Value</div><div class="v">₹9,800</div><div class="trend">Stable</div></div>
-    </div>
-    <div class="chart-card"><canvas id="primaryChart"></canvas></div>
+<!-- 5. Execution -->
+<section id="execution" class="page" style="display:none">
+  <div class="page-title"><h1>⚙️ Execution – RED & SGA data</h1></div>
+  <h3>🧊 RED Cooler Placement</h3>
+  <table>
+    <thead><tr><th>Region</th><th>Cooler SKU</th><th>Placement %</th><th>Compliance</th></tr></thead>
+    <tbody>
+      <tr><td>Lucknow</td><td>Coca-Cola 500ml</td><td>94%</td><td>✅</td></tr>
+      <tr><td>Faizabad</td><td>Sprite 1L</td><td>88%</td><td>⚠️</td></tr>
+    </tbody>
+  </table>
+  <h3>📊 SGA (Sales Generating Assets)</h3>
+  <table>
+    <thead><tr><th>Asset</th><th>Total</th><th>Active</th><th>Inactive</th><th>RED %</th></tr></thead>
+    <tbody>
+      <tr><td>Coolers</td><td>620</td><td>590</td><td>30</td><td>82%</td></tr>
+    </tbody>
+  </table>
+</section>
 
-    <!-- Secondary Sales -->
-    <h3>Secondary Sales – Retailer-level</h3>
-    <div class="alerts">
-      <div class="card"><div class="k">Units Sold (MTD)</div><div class="v">80,500</div><div class="trend">↑3%</div></div>
-      <div class="card"><div class="k">Top SKU</div><div class="v">Coca-Cola 500ml</div><div class="trend">Best Seller</div></div>
-    </div>
-    <div class="chart-card"><canvas id="secondaryChart"></canvas></div>
-  </section>
+<!-- 6. RTM -->
+<section id="rtm" class="page" style="display:none">
+  <div class="page-title"><h1>👥 RTM – Distributor Data</h1></div>
+  <table>
+    <thead><tr><th>Distributor Code</th><th>Distributor Name</th><th>Region</th><th>Sales (MTD)</th><th>Growth %</th><th>Cooler Count</th><th>RED %</th></tr></thead>
+    <tbody>
+      <tr><td>D001</td><td>Krishna Traders</td><td>Lucknow</td><td>₹12,45,000</td><td>+8%</td><td>315</td><td>84%</td></tr>
+      <tr><td>D002</td><td>Rama Beverages</td><td>Faizabad</td><td>₹9,80,000</td><td>+5%</td><td>280</td><td>78%</td></tr>
+    </tbody>
+  </table>
+</section>
 
-  <!-- 4. Marketing -->
-  <section id="marketing" class="page" style="display:none">
-    <div class="page-title"><h1>📢 Marketing</h1></div>
-    <div class="alerts">
-      <div class="card"><div class="k">QPS (MTD)</div><div class="v">2,800</div><div class="trend">↑6%</div></div>
-      <div class="card"><div class="k">Schemes Active</div><div class="v">3</div><div class="trend">Buy2Get1, Combo, Discount</div></div>
-      <div class="card"><div class="k">Spend (YTD)</div><div class="v">₹12,40,000</div><div class="trend">On Budget</div></div>
-    </div>
-    <div class="chart-card"><canvas id="marketingChart"></canvas></div>
-  </section>
-
-  <!-- 5. Execution -->
-  <section id="execution" class="page" style="display:none">
-    <div class="page-title"><h1>⚙️ Execution – RED & SGA</h1></div>
-    <h3>🧊 RED Cooler Placement</h3>
-    <table>
-      <thead><tr><th>Region</th><th>Cooler SKU</th><th>Placement %</th><th>Compliance</th></tr></thead>
-      <tbody>
-        <tr><td>Lucknow</td><td>Coca-Cola 500ml</td><td>94%</td><td>✅</td></tr>
-        <tr><td>Faizabad</td><td>Sprite 1L</td><td>88%</td><td>⚠️</td></tr>
-      </tbody>
-    </table>
-
-    <h3>📊 SGA (Sales Generating Assets)</h3>
-    <table>
-      <thead><tr><th>Asset</th><th>Total</th><th>Active</th><th>Inactive</th><th>RED %</th></tr></thead>
-      <tbody>
-        <tr><td>Coolers</td><td>620</td><td>590</td><td>30</td><td>82%</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- 6. RTM -->
-  <section id="rtm" class="page" style="display:none">
-    <div class="page-title"><h1>📊 RTM – Distributor Data</h1></div>
-    <table>
-      <thead><tr><th>Distributor Code</th><th>Distributor Name</th><th>Region</th><th>Sales (MTD)</th><th>Growth %</th><th>Cooler Count</th><th>RED %</th></tr></thead>
-      <tbody>
-        <tr><td>D001</td><td>Krishna Traders</td><td>Lucknow</td><td>₹12,45,000</td><td>+8%</td><td>315</td><td>84%</td></tr>
-        <tr><td>D002</td><td>Rama Beverages</td><td>Faizabad</td><td>₹9,80,000</td><td>+5%</td><td>280</td><td>78%</td></tr>
-        <tr><td>D003</td><td>Om Traders</td><td>Barabanki</td><td>₹7,60,000</td><td>+4%</td><td>195</td><td>81%</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <div class="footer-note">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>© SLMG Beverages LTD. — Prototype Portal</div>
+<div class="footer-note">प्रोजेक्ट दृष्टि — साफ़ नज़र, सही दिशा<br>© SLMG Beverages LTD. — Prototype Portal</div>
 </div>
 
 <script>
@@ -189,76 +194,45 @@ function showSection(e){
   document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
   e.currentTarget.classList.add('active');
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-  document.getElementById(target).style.display='block';
-  setTimeout(()=>window.dispatchEvent(new Event('resize')),120);
+  const section = document.getElementById(target);
+  if(section) section.style.display='block';
+  setTimeout(()=>window.dispatchEvent(new Event('resize')),100);
 }
-function logout(){ localStorage.removeItem('slmg_authenticated'); window.location.href='index.html'; }
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById('dashboard').style.display='block';
+  document.querySelectorAll('nav a')[0].classList.add('active');
+});
+function logout(){localStorage.removeItem('slmg_authenticated');window.location.href='index.html';}
 
-// Chart Data
+// Charts
 const labels = ["Apr","May","Jun","Jul","Aug","Sep"];
-
-new Chart(document.getElementById('salesVsProdChart'),{
-  type:'bar', data:{
-    labels, datasets:[
-      { label:'Primary Sales', data:[480,520,450,610,700,482], backgroundColor:'rgba(244,0,9,0.95)', stack:'sales'},
-      { label:'Secondary Sales', data:[420,490,470,580,640,534], backgroundColor:'rgba(0,102,179,0.95)', stack:'sales'},
-      { type:'line', label:'Production (k bottles)', data:[120,125,118,130,140,135], borderColor:'rgba(34,197,94,0.9)', backgroundColor:'rgba(34,197,94,0.12)', yAxisID:'y1', tension:0.25}
-    ]
-  }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'top'}}, scales:{ y:{beginAtZero:true}, y1:{position:'right', grid:{display:false}, beginAtZero:true} } }
+new Chart(document.getElementById('salesVsProdChart').getContext('2d'),{
+  type:'bar',data:{labels,datasets:[
+    {label:'Primary Sales',data:[500,520,480,610,700,650],backgroundColor:'rgba(244,0,9,0.95)',stack:'sales'},
+    {label:'Secondary Sales',data:[400,450,420,500,600,580],backgroundColor:'rgba(0,102,179,0.95)',stack:'sales'},
+    {type:'line',label:'Production (k bottles)',data:[120,125,118,130,140,135],borderColor:'rgba(34,197,94,0.9)',backgroundColor:'rgba(34,197,94,0.12)',yAxisID:'y1',tension:0.25}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,title:{display:true,text:'Sales (₹ thousands)'}},y1:{position:'right',grid:{display:false},beginAtZero:true,title:{display:true,text:'Production (k bottles)'}}}}
 });
 
-// Primary Sales Chart
-new Chart(document.getElementById('primaryChart'),{
-  type:'line', data:{
-    labels, datasets:[
-      {label:'Primary Sales', data:[480,520,450,610,700,482], borderColor:'rgba(244,0,9,0.9)', backgroundColor:'rgba(244,0,9,0.15)', tension:0.3, fill:true}
-    ]
-  }, options:{responsive:true, maintainAspectRatio:false}
+new Chart(document.getElementById('primarySecondaryChart').getContext('2d'),{
+  type:'bar',data:{labels,datasets:[
+    {label:'Primary Sales',data:[500,520,480,610,700,650],backgroundColor:'rgba(244,0,9,0.95)'},
+    {label:'Secondary Sales',data:[400,450,420,500,600,580],backgroundColor:'rgba(0,102,179,0.95)'}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}
 });
 
-// Secondary Sales Chart
-new Chart(document.getElementById('secondaryChart'),{
-  type:'line', data:{
-    labels, datasets:[
-      {label:'Secondary Sales', data:[420,490,470,580,640,534], borderColor:'rgba(0,102,179,0.9)', backgroundColor:'rgba(0,102,179,0.15)', tension:0.3, fill:true}
-    ]
-  }, options:{responsive:true, maintainAspectRatio:false}
+new Chart(document.getElementById('primarySecondaryChartSales')?.getContext('2d'),{
+  type:'bar',data:{labels,datasets:[
+    {label:'Primary Sales',data:[500,520,480,610,700,650],backgroundColor:'rgba(244,0,9,0.95)'},
+    {label:'Secondary Sales',data:[400,450,420,500,600,580],backgroundColor:'rgba(0,102,179,0.95)'}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}
 });
 
-// Production Chart
-new Chart(document.getElementById('productionChart'),{
-  type:'bar', data:{
-    labels, datasets:[
-      {label:'Production', data:[120,125,118,130,140,135], backgroundColor:'rgba(34,197,94,0.85)'}
-    ]
-  }, options:{responsive:true, maintainAspectRatio:false}
-});
-
-// Transport Chart
-new Chart(document.getElementById('transportChart'),{
-  type:'line', data:{
-    labels, datasets:[
-      {label:'On-Time Deliveries %', data:[92,94,90,95,96,95], borderColor:'rgba(244,165,0,0.9)', backgroundColor:'rgba(244,165,0,0.15)', tension:0.3, fill:true}
-    ]
-  }, options:{responsive:true, maintainAspectRatio:false}
-});
-
-// Stock Chart
-new Chart(document.getElementById('stockChart'),{
-  type:'bar', data:{
-    labels, datasets:[
-      {label:'Stock Value (₹ lakhs)', data:[22,23,24,23.5,25,24.8], backgroundColor:'rgba(102,51,153,0.85)'}
-    ]
-  }, options:{responsive:true, maintainAspectRatio:false}
-});
-
-// Marketing Chart
-new Chart(document.getElementById('marketingChart'),{
-  type:'line', data:{
-    labels, datasets:[
-      {label:'QPS (MTD)', data:[2400,2600,2500,2700,2800,2850], borderColor:'rgba(255,102,0,0.9)', backgroundColor:'rgba(255,102,0,0.15)', tension:0.3, fill:true}
-    ]
-  }, options:{responsive:true, maintainAspectRatio:false}
+new Chart(document.getElementById('marketingChart')?.getContext('2d'),{
+  type:'line',data:{labels,datasets:[{label:'Marketing Spend (₹ thousands)',data:[120,135,115,140,160,125],borderColor:'rgba(244,0,9,0.9)',backgroundColor:'rgba(244,0,9,0.08)',fill:true,tension:0.25}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}
 });
 </script>
 </body>

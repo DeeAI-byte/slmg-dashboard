@@ -62,26 +62,151 @@ tr:hover td{background:#fbfdff;}
 
 <div class="container">
 
-<!-- 1. Dashboard -->
+<!-- Dashboard Section -->
 <section id="dashboard" class="page">
   <div class="page-title"><h1>🏠 Dashboard – Overview metrics</h1></div>
+
+  <!-- KPI Cards -->
   <div class="alerts">
-    <div class="card"><div class="k">Primary Sales (MTD)</div><div class="v">₹50,00,000</div><div class="trend">↑10% vs last month</div></div>
-    <div class="card"><div class="k">Production (MTD)</div><div class="v">9,50,000 bottles</div><div class="trend">↔ Stable</div></div>
-    <div class="card"><div class="k">Stock (Total)</div><div class="v">1,70,000 units</div><div class="trend">↓3% reserve</div></div>
-    <div class="card"><div class="k">RED (Avg)</div><div class="v">85%</div><div class="trend">Goal: 90%</div></div>
+    <div class="card"><div class="k">Primary Sales Volume</div><div class="v"><span id="primaryVolume"></span></div></div>
+    <div class="card"><div class="k">Primary Sales Revenue</div><div class="v">₹<span id="primaryRevenue"></span></div></div>
+    <div class="card"><div class="k">Secondary Sales Volume</div><div class="v"><span id="secondaryVolume"></span></div></div>
   </div>
+
+  <!-- Charts -->
   <div class="charts">
     <div class="chart-card">
-      <h3>Sales vs Production</h3>
-      <canvas id="salesVsProdChart"></canvas>
+      <h3>Region-wise Primary Volume</h3>
+      <canvas id="regionChart"></canvas>
     </div>
     <div class="chart-card">
-      <h3>Primary vs Secondary (Monthly)</h3>
-      <canvas id="primarySecondaryChart"></canvas>
+      <h3>ASM-wise Primary Volume</h3>
+      <canvas id="asmChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Brand/Pack-wise Primary Volume</h3>
+      <canvas id="brandPackChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Region-wise Secondary Volume</h3>
+      <canvas id="secondaryRegionChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>ASM-wise Secondary Volume</h3>
+      <canvas id="secondaryAsmChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Brand/Pack-wise Secondary Volume</h3>
+      <canvas id="secondaryBrandPackChart"></canvas>
     </div>
   </div>
 </section>
+
+<!-- Script for KPIs + Charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+async function loadData() {
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNz2k06u6P-8Q7BgBSca2zV9KCvQZvuQfr6w0FXogljmhPccbiBOo146Dk47T2HX5da6tNCgYJdhd0/pub?output=csv";
+  const response = await fetch(url);
+  const text = await response.text();
+  const rows = text.split("\n").map(r => r.split(","));
+
+  // KPI totals
+  let primaryVolume = 0, primaryRevenue = 0, secondaryVolume = 0;
+  for(let i=1; i<rows.length; i++) {
+    primaryVolume += Number(rows[i][12] || 0);   // Primary Sale column
+    primaryRevenue += Number(rows[i][15] || 0); // Primary Sales Revenue column
+    secondaryVolume += Number(rows[i][13] || 0); // Secondary Sale column
+  }
+  document.getElementById("primaryVolume").innerText = primaryVolume;
+  document.getElementById("primaryRevenue").innerText = primaryRevenue;
+  document.getElementById("secondaryVolume").innerText = secondaryVolume;
+
+  // Region-wise Primary Volume
+  let regionTotals = {};
+  for(let i=1; i<rows.length; i++) {
+    let region = rows[i][3]; // SiteID/Region column
+    let vol = Number(rows[i][12] || 0);
+    regionTotals[region] = (regionTotals[region] || 0) + vol;
+  }
+  new Chart(document.getElementById("regionChart"), {
+    type: 'bar',
+    data: { labels: Object.keys(regionTotals),
+            datasets: [{ label: 'Primary Volume', data: Object.values(regionTotals), backgroundColor: '#d32f2f'}]}
+  });
+
+  // ASM-wise Primary Volume
+  let asmTotals = {};
+  for(let i=1; i<rows.length; i++) {
+    let asm = rows[i][2]; // ASM column (adjust index if needed)
+    let vol = Number(rows[i][12] || 0);
+    asmTotals[asm] = (asmTotals[asm] || 0) + vol;
+  }
+  new Chart(document.getElementById("asmChart"), {
+    type: 'bar',
+    data: { labels: Object.keys(asmTotals),
+            datasets: [{ label: 'Primary Volume', data: Object.values(asmTotals), backgroundColor: '#1976d2'}]}
+  });
+
+  // Brand/Pack-wise Primary Volume
+  let brandPackTotals = {};
+  for(let i=1; i<rows.length; i++) {
+    let brand = rows[i][7]; // ItemName column
+    let pack = rows[i][16]; // Pack Type column
+    let key = brand + " (" + pack + ")";
+    let vol = Number(rows[i][12] || 0);
+    brandPackTotals[key] = (brandPackTotals[key] || 0) + vol;
+  }
+  new Chart(document.getElementById("brandPackChart"), {
+    type: 'bar',
+    data: { labels: Object.keys(brandPackTotals),
+            datasets: [{ label: 'Primary Volume', data: Object.values(brandPackTotals), backgroundColor: '#388e3c'}]}
+  });
+
+  // Repeat similar grouping for Secondary charts
+  let secRegionTotals = {};
+  for(let i=1; i<rows.length; i++) {
+    let region = rows[i][3];
+    let vol = Number(rows[i][13] || 0);
+    secRegionTotals[region] = (secRegionTotals[region] || 0) + vol;
+  }
+  new Chart(document.getElementById("secondaryRegionChart"), {
+    type: 'bar',
+    data: { labels: Object.keys(secRegionTotals),
+            datasets: [{ label: 'Secondary Volume', data: Object.values(secRegionTotals), backgroundColor: '#fbc02d'}]}
+  });
+
+  let secAsmTotals = {};
+  for(let i=1; i<rows.length; i++) {
+    let asm = rows[i][2];
+    let vol = Number(rows[i][13] || 0);
+    secAsmTotals[asm] = (secAsmTotals[asm] || 0) + vol;
+  }
+  new Chart(document.getElementById("secondaryAsmChart"), {
+    type: 'bar',
+    data: { labels: Object.keys(secAsmTotals),
+            datasets: [{ label: 'Secondary Volume', data: Object.values(secAsmTotals), backgroundColor: '#8e24aa'}]}
+  });
+
+  let secBrandPackTotals = {};
+  for(let i=1; i<rows.length; i++) {
+    let brand = rows[i][7];
+    let pack = rows[i][16];
+    let key = brand + " (" + pack + ")";
+    let vol = Number(rows[i][13] || 0);
+    secBrandPackTotals[key] = (secBrandPackTotals[key] || 0) + vol;
+  }
+  new Chart(document.getElementById("secondaryBrandPackChart"), {
+    type: 'bar',
+    data: { labels: Object.keys(secBrandPackTotals),
+            datasets: [{ label: 'Secondary Volume', data: Object.values(secBrandPackTotals), backgroundColor: '#e64a19'}]}
+  });
+}
+
+setInterval(loadData, 60000); // refresh every minute
+loadData();
+</script>
+
 
 <!-- 2. Supply Chain -->
 <section id="supplychain" class="page" style="display:none">
@@ -305,6 +430,49 @@ new Chart(document.getElementById('marketingChart')?.getContext('2d'),{
   type:'line',data:{labels,datasets:[{label:'Marketing Spend (₹ thousands)',data:[120,135,115,140,160,125],borderColor:'rgba(244,0,9,0.9)',backgroundColor:'rgba(244,0,9,0.08)',fill:true,tension:0.25}]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true}}}
 });
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+async function loadData() {
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNz2k06u6P-8Q7BgBSca2zV9KCvQZvuQfr6w0FXogljmhPccbiBOo146Dk47T2HX5da6tNCgYJdhd0/pub?output=csv";
+  const response = await fetch(url);
+  const text = await response.text();
+  const rows = text.split("\n").map(r => r.split(","));
+
+  let primaryVolume = 0, primaryRevenue = 0, secondaryVolume = 0;
+  for(let i=1; i<rows.length; i++) {
+    primaryVolume += Number(rows[i][4] || 0);   // Primary Volume column
+    primaryRevenue += Number(rows[i][5] || 0); // Primary Revenue column
+    secondaryVolume += Number(rows[i][6] || 0); // Secondary Volume column
+  }
+
+  document.getElementById("primaryVolume").innerText = primaryVolume;
+  document.getElementById("primaryRevenue").innerText = primaryRevenue;
+  document.getElementById("secondaryVolume").innerText = secondaryVolume;
+
+  // Example: Region-wise chart
+  let regionTotals = {};
+  for(let i=1; i<rows.length; i++) {
+    let region = rows[i][0]; // Region column
+    let vol = Number(rows[i][4] || 0);
+    regionTotals[region] = (regionTotals[region] || 0) + vol;
+  }
+
+  new Chart(document.getElementById("regionChart"), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(regionTotals),
+      datasets: [{
+        label: 'Primary Volume',
+        data: Object.values(regionTotals),
+        backgroundColor: '#d32f2f'
+      }]
+    }
+  });
+}
+
+setInterval(loadData, 60000); // refresh every minute
+loadData();
 </script>
 </body>
 </html>
